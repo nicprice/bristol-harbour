@@ -117,10 +117,11 @@ export class MapManager {
             const arrDate = new Date(next.arrivalTime);
             const timeStr = arrDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
 
-            // Determine direction based on schedule sequence
+            // Determine direction based on future schedule sequence
             const arrivalIndex = schedule.indexOf(next);
             let direction = 'Towards Mooring';
-            for (let i = arrivalIndex; i < schedule.length; i++) {
+            // Start from i = arrivalIndex + 1 to find where it's going AFTER this stop
+            for (let i = arrivalIndex + 1; i < schedule.length; i++) {
                 if (schedule[i].stopId === 'hotwells') { direction = 'Towards Hotwells'; break; }
                 if (schedule[i].stopId === 'temple-meads') { direction = 'Towards Temple Meads'; break; }
             }
