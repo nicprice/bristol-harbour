@@ -91,7 +91,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (vessel.name === 'Matilda') { color = '#fada5e'; textColor = '#005b96'; }
                 else if (vessel.name === 'Brigantia') { color = '#005b96'; textColor = '#fada5e'; }
 
+                let direction = '';
                 if (nextArrival) {
+                    const arrivalIndex = vessel.schedule.indexOf(nextArrival);
+                    let destStopId = '';
+                    for (let i = arrivalIndex; i < vessel.schedule.length; i++) {
+                        if (vessel.schedule[i].stopId === 'hotwells') {
+                            destStopId = 'hotwells';
+                            break;
+                        }
+                        if (vessel.schedule[i].stopId === 'temple-meads') {
+                            destStopId = 'temple-meads';
+                            break;
+                        }
+                    }
+                    if (destStopId === 'hotwells') {
+                        direction = 'Towards Hotwells';
+                    } else if (destStopId === 'temple-meads') {
+                        direction = 'Towards Temple Meads';
+                    } else {
+                        direction = 'Towards Mooring';
+                    }
+
                     const arrivalDate = new Date(nextArrival.arrivalTime);
                     const diffMins = Math.max(0, Math.ceil((arrivalDate.getTime() - now) / 60000));
                     const timeString = arrivalDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -109,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="arrival-card">
                             <div class="vessel-badge" style="background-color: ${color}; color: ${textColor};" aria-hidden="true">${vessel.textInitial}</div>
                             <div class="arrival-info">
-                                <h3>${vessel.name}</h3>
+                                <h3>${vessel.name} <small style="font-weight: normal; font-size: 0.9em; color: #555;">(${direction})</small></h3>
                                 <div class="arrival-time">${displayTime}</div>
                             </div>
                         </div>
