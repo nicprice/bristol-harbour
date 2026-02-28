@@ -221,7 +221,7 @@ export const mockVessels: Vessel[] = [
         color: '#fada5e', // yellow
         textInitial: 'M',
         avatarUrl: 'assets/matilda.png',
-        schedule: generateDynamicSchedule(-20) // Start 20 mins ago
+        schedule: generateDynamicSchedule(0) // Anchored directly to 11:20 start
     },
     {
         id: 'ferry-2',
@@ -230,7 +230,7 @@ export const mockVessels: Vessel[] = [
         positionSource: 'TIMETABLE',
         color: '#005b96', // blue
         textInitial: 'B',
-        avatarUrl: 'assets/brigantia.png',
-        schedule: generateDynamicSchedule(-60) // Starts 40 mins ahead of Ferry 1
+        avatarUrl: 'assets/brigantia_circle.png',
+        schedule: generateDynamicSchedule(-40) // Anchored precisely 40 mins earlier (10:40, so loop 2 is 12:00)
     }
 ];
