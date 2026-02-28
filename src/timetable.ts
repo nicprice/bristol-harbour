@@ -1,33 +1,16 @@
 import './style.css';
 import { mockVessels, stops } from './data/mockData';
+import { getBoatTimetableHtml } from './ui/timetableRenderer';
 
 function renderBoatTimetable(vesselId: string, containerId: string) {
     const vessel = mockVessels.find(v => v.id === vesselId);
     const container = document.querySelector(`#${containerId} .table-wrapper`);
     if (!vessel || !container || !vessel.schedule) return;
 
-    let html = `<table class="sequential-timetable">
-        <thead>
-            <tr>
-                <th scope="col">Time</th>
-                <th scope="col">Stop</th>
-            </tr>
-        </thead>
-        <tbody>`;
-
-    vessel.schedule.forEach((item) => {
-        const stopName = stops.find(s => s.id === item.stopId)?.name || item.stopId;
-        const date = new Date(item.arrivalTime);
-        const timeStr = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
-
-        html += `<tr>
-            <td data-time-ms="${date.getTime()}" class="time-cell">${timeStr}</td>
-            <td class="stop-cell">${stopName}</td>
-        </tr>`;
-    });
-
-    html += `</tbody></table>`;
-    container.innerHTML = html;
+    // Progressive enhancement: only render if empty
+    if (container.innerHTML.trim() === '') {
+        container.innerHTML = getBoatTimetableHtml(vessel, stops);
+    }
 }
 
 function updateHighlighting() {

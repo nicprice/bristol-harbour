@@ -154,6 +154,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
+            // Calculate travel times
+            const walkTimeMins = Math.max(1, Math.ceil(closestDist / (1.4 * 60))); // 1.4 m/s approx walking speed
+
+            const targetCoord = closestStop.landCoords || closestStop.coords;
+            const googleMapsUrl = (mode: string) =>
+                `https://www.google.com/maps/dir/?api=1&origin=${userLat},${userLon}&destination=${targetCoord.lat},${targetCoord.lon}&travelmode=${mode}`;
+
+            const walkTimeEl = document.getElementById('walk-time')!;
+            const walkLinkEl = document.getElementById('walk-link') as HTMLAnchorElement;
+            const transitLinkEl = document.getElementById('transit-link') as HTMLAnchorElement;
+
+            walkTimeEl.textContent = `${walkTimeMins} min${walkTimeMins !== 1 ? 's' : ''}`;
+            walkLinkEl.href = googleMapsUrl('walking');
+            transitLinkEl.href = googleMapsUrl('transit');
+
             // Update UI
             loadingEl.style.display = 'none';
             stopNameEl.textContent = closestStop.name;

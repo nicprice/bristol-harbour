@@ -90,6 +90,50 @@
             font-size: 1.1rem;
             color: #333;
         }
+
+        .travel-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .travel-card {
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            border-radius: 4px;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            transition: background-color 0.2s;
+        }
+
+        .travel-card:hover {
+            background-color: var(--surface-200);
+            border-color: var(--primary-color);
+        }
+
+        .travel-mode {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: #666;
+            font-weight: bold;
+        }
+
+        .travel-time {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .travel-link {
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+            text-decoration: underline;
+        }
     </style>
 </head>
 
@@ -108,6 +152,20 @@
         <h2 id="stop-name" class="nearest-stop-title">Stop Name</h2>
         <p id="stop-distance" class="distance">Distance: --</p>
 
+        <div class="travel-options">
+            <a id="walk-link" href="#" target="_blank" class="travel-card">
+                <span class="travel-mode">🚶 Walking</span>
+                <span id="walk-time" class="travel-time">-- mins</span>
+                <span class="travel-link">Get directions</span>
+            </a>
+            <a id="transit-link" href="#" target="_blank" class="travel-card">
+                <span class="travel-mode">🚌 Public Transport</span>
+                <span id="transit-time" class="travel-time">Check live</span>
+                <span class="travel-link">See options</span>
+            </a>
+        </div>
+
+        <h3 style="margin-top: 2rem;">Upcoming arrivals</h3>
         <div id="arrivals">
             <!-- Inserted by JS -->
         </div>
