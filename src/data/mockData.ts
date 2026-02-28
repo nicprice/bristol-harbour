@@ -47,6 +47,7 @@ export interface Route {
 
 // Bristol Harbour accurate water coordinates
 export const stops: Stop[] = [
+    { id: 'mooring', name: 'Mooring', coords: { lat: 51.44905332904635, lon: -2.5960349357861197 } },
     { id: 'temple-meads', name: 'Temple Meads', coords: { lat: 51.4515123, lon: -2.5812173 } },
     { id: 'castle-park', name: 'Castle Park', coords: { lat: 51.4549873, lon: -2.5887009 } },
     { id: 'city-centre', name: 'City Centre', coords: { lat: 51.4520327, lon: -2.597747 } },
@@ -99,6 +100,7 @@ export const routePath: Coordinates[] = [
     { lat: 51.4487986, lon: -2.5930147 }, // node 5834880337
     { lat: 51.4486605, lon: -2.5937291 }, // node 2692245575
     { lat: 51.4485734, lon: -2.5944813 }, // node 430692970
+    { lat: 51.44905332904635, lon: -2.5960349357861197 }, // mooring
     { lat: 51.4485984, lon: -2.5964715 }, // node 973129635
     { lat: 51.4485717, lon: -2.5969129 }, // node 17399141
     { lat: 51.4485697, lon: -2.5978331 }, // node 10135259544
@@ -186,6 +188,14 @@ function generateDynamicSchedule(startOffsetFrom1120Minutes: number): StopTime[]
     const startTimeMs = baseTimeMs + startOffsetFrom1120Minutes * 60000;
 
     let schedule: StopTime[] = [];
+
+    // Add initial mooring departure 15 minutes before the first stop
+    schedule.push({
+        stopId: 'mooring',
+        arrivalTime: new Date(startTimeMs - 15 * 60000).toISOString(),
+        departureTime: new Date(startTimeMs - 15 * 60000).toISOString()
+    });
+
     const loops = 5; // Generate schedule for next ~6.5 hours
 
     for (let l = 0; l < loops; l++) {
@@ -207,6 +217,13 @@ function generateDynamicSchedule(startOffsetFrom1120Minutes: number): StopTime[]
         stopId: 'temple-meads',
         arrivalTime: new Date(finalArr).toISOString(),
         departureTime: new Date(finalArr).toISOString()
+    });
+
+    // Add final mooring arrival 15 minutes after the last stop
+    schedule.push({
+        stopId: 'mooring',
+        arrivalTime: new Date(finalArr + 15 * 60000).toISOString(),
+        departureTime: new Date(finalArr + 15 * 60000).toISOString() // Will sit here forever
     });
 
     return schedule;
