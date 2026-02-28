@@ -1,5 +1,5 @@
 import * as L from 'leaflet';
-import { Vessel, Route, Stop, stops } from '../data/mockData';
+import { Vessel, Route, Stop, stops, mockVessels, generateDynamicSchedule } from '../data/mockData';
 import { TrackerEngine } from '../core/TrackerEngine';
 
 export class MapManager {
@@ -54,13 +54,11 @@ export class MapManager {
             // Interaction logic: on click, show "time, direction, next stop"
             // For a static mock, we'll demonstrate the concept.
             marker.on('click', () => {
-                const nextArrival = this.calculateNextArrival(stop.id);
-                marker.bindPopup(`
-                    <strong>${stop.name}</strong><br/>
-                    Next ferry: ${nextArrival.time}<br/>
-                    Direction: ${nextArrival.direction}<br/>
-                    Next stop: ${nextArrival.nextStop}
-                `).openPopup();
+                const popupContent = `
+                    <div style="margin-bottom: 10px;"><strong>${stop.name}</strong></div>
+                    ${this.calculateNextArrivals(stop.id)}
+                `;
+                marker.bindPopup(popupContent).openPopup();
             });
 
             // WCAG Non-Text Content
@@ -101,16 +99,92 @@ export class MapManager {
         return content;
     }
 
-    private calculateNextArrival(stopId: string): { time: string, direction: string, nextStop: string } {
-        // Look up the next vessel arriving from the mock vessels schedule based on current time.
-        // For simplicity and to demonstrate the UI requirement immediately:
-        // Assume the default 'next' mock data derived from global state.
-        // A robust solution would pass the `vessels` down or query the TrackerEngine.
-        return {
-            time: 'Coming Up',
-            direction: stopId === 'temple-meads' ? 'Towards Hotwells' : 'Towards City Centre',
-            nextStop: 'Unknown'
+    private calculateNextArrivals(stopId: string): string {
+        const now = this.trackerEngine ? this.trackerEngine.getCurrentTime() : new Date();
+        const nowMs = now.getTime();
+
+        interface ArrivalInfo {
+            time: string;
+            boat: string;
+            direction: string;
+            isTomorrow: boolean;
+        }
+
+        const findNext = (schedule: any[], boatName: string): ArrivalInfo | null => {
+            const next = schedule.find(s => s.stopId === stopId && new Date(s.arrivalTime).getTime() > nowMs);
+            if (!next) return null;
+
+            const arrDate = new Date(next.arrivalTime);
+            const timeStr = arrDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+
+            // Determine direction based on schedule sequence
+            const arrivalIndex = schedule.indexOf(next);
+            let direction = 'Towards Mooring';
+            for (let i = arrivalIndex; i < schedule.length; i++) {
+                if (schedule[i].stopId === 'hotwells') { direction = 'Towards Hotwells'; break; }
+                if (schedule[i].stopId === 'temple-meads') { direction = 'Towards Temple Meads'; break; }
+            }
+
+            return {
+                time: timeStr,
+                boat: boatName,
+                direction,
+                isTomorrow: false
+            };
         };
+
+        let arrivals: ArrivalInfo[] = [];
+
+        mockVessels.forEach(vessel => {
+            if (!vessel.schedule) return;
+            let info = findNext(vessel.schedule, vessel.name);
+
+            if (!info) {
+                // Try tomorrow
+                const tomorrow = new Date(now);
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                let tomorrowSched;
+                if (vessel.name === 'Matilda') {
+                    tomorrowSched = generateDynamicSchedule(0, 11, 20, 15, 37, 'mooring-1', tomorrow);
+                } else {
+                    tomorrowSched = generateDynamicSchedule(-40, 11, 20, 15, 35, 'mooring-2', tomorrow);
+                }
+                const tomorrowInfo = findNext(tomorrowSched, vessel.name);
+                if (tomorrowInfo) {
+                    tomorrowInfo.isTomorrow = true;
+                    arrivals.push(tomorrowInfo);
+                }
+            } else {
+                arrivals.push(info);
+            }
+        });
+
+        // Group by direction
+        const directions = ['Towards Temple Meads', 'Towards Hotwells'];
+        let html = '<div style="min-width: 160px; font-family: Arial, sans-serif;">';
+
+        directions.forEach(dir => {
+            const best = arrivals
+                .filter(a => a.direction === dir)
+                .sort((a, b) => {
+                    // Sort by time (simplified comparison since they are mostly same day or tomorrow)
+                    if (a.isTomorrow !== b.isTomorrow) return a.isTomorrow ? 1 : -1;
+                    return a.time.localeCompare(b.time);
+                })[0];
+
+            html += `<div style="margin-bottom: 8px; border-bottom: 1px solid #eee; padding-bottom: 4px;">`;
+            html += `<span style="font-size: 0.75rem; color: #666; text-transform: uppercase;">${dir}</span><br/>`;
+            if (best) {
+                html += `<strong>${best.time}</strong> <span style="font-size: 0.85rem;">(${best.boat})</span>`;
+                if (best.isTomorrow) html += ` <span style="color: #d4351c; font-size: 0.7rem; font-weight: bold;">TOMORROW</span>`;
+            } else {
+                html += `<span style="color: #999; font-size: 0.85rem;">No service</span>`;
+            }
+            html += `</div>`;
+        });
+
+        html += '</div>';
+        return html;
     }
 
     public updateVessels(vessels: Vessel[]): void {
