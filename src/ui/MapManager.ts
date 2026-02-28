@@ -43,7 +43,6 @@ export class MapManager {
             }).addTo(this.map);
 
             // Add tooltip & accessibility tags
-            // Use permanent tooltips for visible labels
             marker.bindTooltip(stop.name, {
                 permanent: true,
                 direction: 'top',
@@ -51,17 +50,25 @@ export class MapManager {
                 offset: [0, -10]
             });
 
-            // Interaction logic: on click, show "time, direction, next stop"
-            // For a static mock, we'll demonstrate the concept.
-            marker.on('click', () => {
-                const popupContent = `
-                    <div style="margin-bottom: 10px;"><strong>${stop.name}</strong></div>
-                    ${this.calculateNextArrivals(stop.id)}
-                `;
-                marker.bindPopup(popupContent).openPopup();
+            const popupContent = `
+                <div style="margin-bottom: 10px;"><strong>${stop.name}</strong></div>
+                ${this.calculateNextArrivals(stop.id)}
+            `;
+            marker.bindPopup(popupContent);
+
+            marker.on('popupopen', () => {
+                const nextTime = this.getNextArrivalTime(stop.id);
+                const label = nextTime ? `${stop.name} (Next: ${nextTime})` : stop.name;
+                marker.setTooltipContent(label);
+                marker.setStyle({ weight: 4 });
             });
 
-            // WCAG Non-Text Content
+            marker.on('popupclose', () => {
+                marker.setTooltipContent(stop.name);
+                marker.setStyle({ weight: 2 });
+            });
+
+            // WCAG Non-Text Content & Interaction
             const pathPath = marker.getElement();
             if (pathPath) {
                 pathPath.setAttribute('role', 'button');
@@ -72,11 +79,61 @@ export class MapManager {
                 pathPath.addEventListener('keydown', (e: Event) => {
                     const keyboardEvent = e as KeyboardEvent;
                     if (keyboardEvent.key === 'Enter' || keyboardEvent.key === ' ') {
-                        marker.fire('click');
+                        marker.openPopup();
                     }
                 });
             }
+
+            // Make the label itself clickable
+            marker.on('add', () => {
+                const tooltip = marker.getTooltip();
+                if (tooltip) {
+                    const tooltipElement = tooltip.getElement();
+                    if (tooltipElement) {
+                        tooltipElement.style.cursor = 'pointer';
+                        tooltipElement.addEventListener('click', () => {
+                            marker.openPopup();
+                        });
+                    }
+                }
+            });
         });
+    }
+
+    private getNextArrivalTime(stopId: string): string | null {
+        const now = this.trackerEngine ? this.trackerEngine.getCurrentTime() : new Date();
+        const nowMs = now.getTime();
+        let earliestArrivalMs = Infinity;
+        let timeStr: string | null = null;
+
+        mockVessels.forEach(vessel => {
+            if (!vessel.schedule) return;
+            // Find next today
+            let next = vessel.schedule.find(s => s.stopId === stopId && new Date(s.arrivalTime).getTime() > nowMs);
+
+            if (!next) {
+                // Try tomorrow
+                const tomorrow = new Date(now);
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                let tomorrowSched;
+                if (vessel.name === 'Matilda') {
+                    tomorrowSched = generateDynamicSchedule(0, 11, 20, 15, 37, 'mooring-1', tomorrow);
+                } else {
+                    tomorrowSched = generateDynamicSchedule(-40, 11, 20, 15, 35, 'mooring-2', tomorrow);
+                }
+                next = tomorrowSched.find(s => s.stopId === stopId && new Date(s.arrivalTime).getTime() > new Date(tomorrow).setUTCHours(0, 0, 0, 0));
+            }
+
+            if (next) {
+                const arrivalMs = new Date(next.arrivalTime).getTime();
+                if (arrivalMs < earliestArrivalMs) {
+                    earliestArrivalMs = arrivalMs;
+                    timeStr = new Date(next.arrivalTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+                }
+            }
+        });
+
+        return timeStr;
     }
 
     private getVesselPopupContent(vessel: Vessel, currentTime: Date): string {
