@@ -172,18 +172,43 @@ export const bristolFerriesRoute: Route = {
     path: routePath
 };
 
-function generateDynamicSchedule(stopIds: string[], offsetsFromStartMinutes: number[], dockDurationsMinutes: number[], startOffsetFromNowMinutes: number): StopTime[] {
+function generateDynamicSchedule(startOffsetFromNowMinutes: number): StopTime[] {
+    const stopIds = [
+        'temple-meads', 'castle-park', 'city-centre', 'wapping-wharf', 'ss-great-britain', 'mardyke', 'hotwells',
+        'mardyke', 'ss-great-britain', 'wapping-wharf', 'city-centre', 'castle-park'
+    ];
+    // Accurate 80-minute loop offsets derived from the official 2026 timetable
+    const baseArrivalOffsets = [0, 4, 17, 26, 29, 33, 38, 41, 44, 47, 55, 72];
+    const dockDurations = [0, 1, 3, 1, 1, 1, 2, 1, 1, 1, 5, 1];
+
     const now = Date.now();
     const startTimeMs = now + startOffsetFromNowMinutes * 60000;
-    return stopIds.map((stopId, i) => {
-        const arrivalTimeMs = startTimeMs + offsetsFromStartMinutes[i] * 60000;
-        const departureTimeMs = arrivalTimeMs + dockDurationsMinutes[i] * 60000;
-        return {
-            stopId,
-            arrivalTime: new Date(arrivalTimeMs).toISOString(),
-            departureTime: new Date(departureTimeMs).toISOString()
-        };
+
+    let schedule: StopTime[] = [];
+    const loops = 5; // Generate schedule for next ~6.5 hours
+
+    for (let l = 0; l < loops; l++) {
+        const loopOffset = l * 80;
+        for (let i = 0; i < stopIds.length; i++) {
+            const arr = startTimeMs + (loopOffset + baseArrivalOffsets[i]) * 60000;
+            const dep = arr + dockDurations[i] * 60000;
+            schedule.push({
+                stopId: stopIds[i],
+                arrivalTime: new Date(arr).toISOString(),
+                departureTime: new Date(dep).toISOString()
+            });
+        }
+    }
+
+    // Cap it with a final Temple Meads stop to complete the last loop
+    const finalArr = startTimeMs + ((loops * 80) + 0) * 60000;
+    schedule.push({
+        stopId: 'temple-meads',
+        arrivalTime: new Date(finalArr).toISOString(),
+        departureTime: new Date(finalArr).toISOString()
     });
+
+    return schedule;
 }
 
 export const mockVessels: Vessel[] = [
@@ -195,12 +220,7 @@ export const mockVessels: Vessel[] = [
         color: '#fada5e', // yellow
         textInitial: 'M',
         avatarUrl: 'assets/matilda.png',
-        schedule: generateDynamicSchedule(
-            ['temple-meads', 'castle-park', 'city-centre', 'wapping-wharf', 'ss-great-britain', 'mardyke', 'hotwells'],
-            [0, 10, 20, 27, 34, 42, 50],
-            [5, 2, 3, 2, 2, 2, 5],
-            -20 // Start 20 mins ago
-        )
+        schedule: generateDynamicSchedule(-20) // Start 20 mins ago
     },
     {
         id: 'ferry-2',
@@ -210,11 +230,6 @@ export const mockVessels: Vessel[] = [
         color: '#005b96', // blue
         textInitial: 'B',
         avatarUrl: 'assets/brigantia.png',
-        schedule: generateDynamicSchedule(
-            ['hotwells', 'mardyke', 'ss-great-britain', 'wapping-wharf', 'city-centre', 'castle-park', 'temple-meads'],
-            [0, 16, 22, 28, 35, 42, 48],
-            [5, 2, 2, 2, 3, 2, 5],
-            -15 // Start 15 mins ago
-        )
+        schedule: generateDynamicSchedule(-60) // Starts 40 mins ahead of Ferry 1
     }
 ];
