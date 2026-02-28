@@ -23,28 +23,6 @@ export class MapManager {
         L.control.zoom({
             position: 'bottomright'
         }).addTo(this.map);
-
-        // Add Legend with Timetable Link
-        const legend = new L.Control({ position: 'bottomleft' });
-        legend.onAdd = () => {
-            const div = L.DomUtil.create('div', 'info legend');
-            div.style.backgroundColor = 'white';
-            div.style.padding = '8px';
-            div.style.borderRadius = '4px';
-            div.style.boxShadow = '0 1px 5px rgba(0,0,0,0.4)';
-            div.style.fontSize = '14px';
-            div.innerHTML = `
-                <div style="margin-bottom: 5px;"><strong>Legend</strong></div>
-                <div><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background-color:#ffffff;border:2px solid #0b0c0c;margin-right:5px;vertical-align:middle;"></span> Ferry Stop</div>
-                <div style="margin-top: 5px; margin-bottom: 5px;"><span style="display:inline-block;width:16px;height:4px;background-color:#1d70b8;margin-right:5px;vertical-align:middle;"></span> Route</div>
-                <hr style="margin: 8px 0; border: 0; border-top: 1px solid #ccc;" />
-                <a href="./timetable.html" style="color: #1d70b8; text-decoration: underline; display: block; text-align: center;">&#128197; View 2026 Timetable</a>
-            `;
-            // Prevent map clicks from triggering when interacting with the legend
-            L.DomEvent.disableClickPropagation(div);
-            return div;
-        };
-        legend.addTo(this.map);
     }
 
     public drawRoute(route: Route): void {
