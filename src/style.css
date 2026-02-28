@@ -205,6 +205,7 @@ main {
         border-top: none;
         border-left: 2px solid var(--border-color);
         width: var(--sidebar-width);
+        max-width: 25vw;
         max-height: none;
         /* Full height */
     }
