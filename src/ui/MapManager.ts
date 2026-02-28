@@ -165,13 +165,25 @@ export class MapManager {
         let html = '<div style="min-width: 160px; font-family: Arial, sans-serif;">';
 
         directions.forEach(dir => {
+            // Filter: If out of hours at terminal stops, only show the other end
+            if (stopId === 'temple-meads' && dir === 'Towards Temple Meads') return;
+            if (stopId === 'hotwells' && dir === 'Towards Hotwells') return;
+
             const best = arrivals
                 .filter(a => a.direction === dir)
                 .sort((a, b) => {
-                    // Sort by time (simplified comparison since they are mostly same day or tomorrow)
                     if (a.isTomorrow !== b.isTomorrow) return a.isTomorrow ? 1 : -1;
                     return a.time.localeCompare(b.time);
                 })[0];
+
+            // If it's a terminal stop and we are in off-hours (next is tomorrow), 
+            // the above returns will already have filtered the redundant direction.
+            // But we also want to ensure we don't show "No service" for the redundant direction.
+            if (!best && (stopId === 'temple-meads' || stopId === 'hotwells')) {
+                // Check if this direction is the one we want to hide
+                if (stopId === 'temple-meads' && dir === 'Towards Temple Meads') return;
+                if (stopId === 'hotwells' && dir === 'Towards Hotwells') return;
+            }
 
             html += `<div style="margin-bottom: 8px; border-bottom: 1px solid #eee; padding-bottom: 4px;">`;
             html += `<span style="font-size: 0.75rem; color: #666; text-transform: uppercase;">${dir}</span><br/>`;
@@ -200,8 +212,6 @@ export class MapManager {
             if (existingMarker) {
                 // Update position smoothly
                 existingMarker.setLatLng([vessel.currentCoords.lat, vessel.currentCoords.lon]);
-                // Update tooltip
-                existingMarker.setTooltipContent(`${vessel.name} - ${vessel.status || 'Unknown'}`);
 
                 // Update Popup
                 const popup = existingMarker.getPopup();
@@ -234,12 +244,10 @@ export class MapManager {
                 const newMarker = L.marker([vessel.currentCoords.lat, vessel.currentCoords.lon], {
                     icon: customIcon,
                     alt: `Vessel ${vessel.name}`,
-                    title: vessel.name,
                     zIndexOffset: 1000
                 }).addTo(this.map);
 
                 newMarker.bindPopup(popupContent, { closeButton: false, offset: [0, -10] });
-                newMarker.bindTooltip(`${vessel.name} - ${vessel.status || 'Unknown'}`);
 
                 // Accessible role
                 const iconElem = newMarker.getElement();
