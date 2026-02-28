@@ -42,14 +42,6 @@ export class MapManager {
                 fillOpacity: 1
             }).addTo(this.map);
 
-            // Add tooltip & accessibility tags
-            marker.bindTooltip(stop.name, {
-                permanent: true,
-                direction: 'top',
-                className: 'stop-label',
-                offset: [0, -10]
-            });
-
             const popupContent = `
                 <div style="margin-bottom: 10px;"><strong>${stop.name}</strong></div>
                 ${this.calculateNextArrivals(stop.id)}
@@ -68,6 +60,34 @@ export class MapManager {
                 marker.setStyle({ weight: 2 });
             });
 
+            const bindTooltipClick = () => {
+                const tooltip = marker.getTooltip();
+                if (tooltip) {
+                    const tooltipElement = tooltip.getElement();
+                    if (tooltipElement) {
+                        tooltipElement.style.cursor = 'pointer';
+                        L.DomEvent.on(tooltipElement, 'click', (e) => {
+                            L.DomEvent.stopPropagation(e);
+                            marker.openPopup();
+                        });
+                    }
+                }
+            };
+
+            // Listen for tooltipopen (will fire for both permanent and on-demand tooltips)
+            marker.on('tooltipopen', bindTooltipClick);
+
+            // Add tooltip & accessibility tags
+            marker.bindTooltip(stop.name, {
+                permanent: true,
+                direction: 'top',
+                className: 'stop-label',
+                offset: [0, -10]
+            });
+
+            // Initial manual bind for permanent tooltips which might already be open
+            bindTooltipClick();
+
             // WCAG Non-Text Content & Interaction
             const pathPath = marker.getElement();
             if (pathPath) {
@@ -83,22 +103,6 @@ export class MapManager {
                     }
                 });
             }
-
-            // Make the label itself clickable
-            marker.on('tooltipopen', () => {
-                const tooltip = marker.getTooltip();
-                if (tooltip) {
-                    const tooltipElement = tooltip.getElement();
-                    if (tooltipElement) {
-                        tooltipElement.style.cursor = 'pointer';
-                        // Use Leaflet's DomEvent to ensure it doesn't conflict with map dragging etc.
-                        L.DomEvent.on(tooltipElement, 'click', (e) => {
-                            L.DomEvent.stopPropagation(e);
-                            marker.openPopup();
-                        });
-                    }
-                }
-            });
         });
     }
 
