@@ -177,9 +177,9 @@ function generateDynamicSchedule(startOffsetFrom1120Minutes: number): StopTime[]
         'temple-meads', 'castle-park', 'city-centre', 'wapping-wharf', 'ss-great-britain', 'mardyke', 'hotwells',
         'mardyke', 'ss-great-britain', 'wapping-wharf', 'city-centre', 'castle-park'
     ];
-    // Accurate 80-minute loop offsets derived from the official 2026 timetable
-    const baseArrivalOffsets = [0, 4, 17, 26, 29, 33, 38, 41, 44, 47, 55, 72];
-    const dockDurations = [0, 1, 3, 1, 1, 1, 2, 1, 1, 1, 5, 1];
+    // Accurate 80-minute loop offsets derived from the updated official 2026 timetable
+    const baseArrivalOffsets = [0, 5, 17, 27, 30, 34, 40, 42, 45, 48, 55, 73];
+    const dockDurations = [1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 5, 1];
 
     // Anchor to exactly 11:20 UTC today (matching the official timetable start)
     const baseTimeMs = new Date().setUTCHours(11, 20, 0, 0);
