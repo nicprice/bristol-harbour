@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bristol Ferry Timetable</title>
     <style>
         body {
@@ -38,6 +38,18 @@
             margin-bottom: 1rem;
             text-align: left;
         }
+
+        .visually-hidden {
+            position: absolute !important;
+            width: 1px !important;
+            height: 1px !important;
+            padding: 0 !important;
+            margin: -1px !important;
+            overflow: hidden !important;
+            clip: rect(0, 0, 0, 0) !important;
+            white-space: nowrap !important;
+            border: 0 !important;
+        }
     </style>
 </head>
 
@@ -49,8 +61,7 @@
     <p class="subtitle">2 Boats - Full Service (Winter Timetable)<br />Weekends Only (Daily for School Holidays)</p>
 
     <table>
-        <caption>Outbound: Temple Quay to Hotwells</caption>
-        <thead>
+        <thead class="visually-hidden">
             <tr>
                 <td></td>
                 <th scope="col">Time</th>
