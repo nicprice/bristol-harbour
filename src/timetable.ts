@@ -24,12 +24,15 @@ function updateHighlighting() {
     mockVessels.forEach(vessel => {
         if (!vessel.schedule) return;
 
-        // Find the next upcoming arrival
-        let nextArrival = vessel.schedule.find(s => new Date(s.arrivalTime).getTime() >= now);
+        // Find the next upcoming arrival (excluding moorings)
+        let nextArrival = vessel.schedule.find(s =>
+            !s.stopId.startsWith('mooring') &&
+            new Date(s.arrivalTime).getTime() >= now
+        );
 
-        // If between days or finished today, highlight the very first stop (usually first of tomorrow)
+        // If between days or finished today, highlight the very first passenger stop
         if (!nextArrival) {
-            nextArrival = vessel.schedule[0];
+            nextArrival = vessel.schedule.find(s => !s.stopId.startsWith('mooring'));
         }
 
         if (nextArrival) {

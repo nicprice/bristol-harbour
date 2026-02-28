@@ -175,11 +175,19 @@ export class TrackerEngine {
                     vessel.currentCoords = { ...stop.coords };
                     vessel.status = stopTime.stopId.startsWith('mooring') ? 'Moored' : 'Scheduled';
                 }
-                // When docked, the NEXT stop is the following one in the schedule
-                if (i + 1 < schedule.length) {
-                    vessel.nextStopId = schedule[i + 1].stopId;
-                    vessel.nextArrivalTime = schedule[i + 1].arrivalTime;
-                } else {
+
+                // When docked, the NEXT stop must be a genuine passenger stop
+                let foundNext = false;
+                for (let j = i + 1; j < schedule.length; j++) {
+                    if (!schedule[j].stopId.startsWith('mooring')) {
+                        vessel.nextStopId = schedule[j].stopId;
+                        vessel.nextArrivalTime = schedule[j].arrivalTime;
+                        foundNext = true;
+                        break;
+                    }
+                }
+
+                if (!foundNext) {
                     vessel.nextStopId = undefined;
                     vessel.nextArrivalTime = undefined;
                 }
@@ -187,9 +195,17 @@ export class TrackerEngine {
             }
 
             if (currentTime < arrival) {
+                // Find the first non-mooring stop from this point forward for the "Next" label
+                let nextValidStop = schedule.slice(i).find(s => !s.stopId.startsWith('mooring'));
+                if (nextValidStop) {
+                    vessel.nextStopId = nextValidStop.stopId;
+                    vessel.nextArrivalTime = nextValidStop.arrivalTime;
+                } else {
+                    vessel.nextStopId = undefined;
+                    vessel.nextArrivalTime = undefined;
+                }
+
                 nextStop = stopTime;
-                vessel.nextStopId = nextStop.stopId;
-                vessel.nextArrivalTime = nextStop.arrivalTime;
                 if (i > 0) {
                     previousStop = schedule[i - 1];
                 }

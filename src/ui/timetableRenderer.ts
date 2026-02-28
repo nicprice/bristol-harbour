@@ -13,6 +13,8 @@ export function getBoatTimetableHtml(vessel: Vessel, stops: Stop[]) {
         <tbody>`;
 
     vessel.schedule.forEach((item: StopTime) => {
+        if (item.stopId.startsWith('mooring')) return;
+
         const stopName = stops.find(s => s.id === item.stopId)?.name || item.stopId;
         const date = new Date(item.arrivalTime);
         const timeStr = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
