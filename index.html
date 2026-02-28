@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bristol Harbour Ferry Tracker</title>
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+</head>
+
+<body>
+  <div id="app">
+    <header>
+      <h1>Bristol Harbour Ferry Tracker</h1>
+    </header>
+    <main>
+      <div id="map-container">
+        <div id="map"></div>
+      </div>
+      <div id="side-panel" role="complementary" aria-label="Live Status">
+        <h2>Live Status</h2>
+        <div id="live-list" aria-live="polite">
+          <!-- List inserted by JS -->
+        </div>
+      </div>
+
+
+    </main>
+  </div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
+</html>

@@ -1,0 +1,102 @@
+Name: City Centre, Lat: 51.4520327, Lon: -2.597747, Tags: {
+  amenity: 'ferry_terminal',
+  ferry: 'yes',
+  name: 'City Centre',
+  wheelchair: 'yes'
+}
+Name: The Cottage, Lat: 51.4471483, Lon: -2.6158254, Tags: { amenity: 'ferry_terminal', ferry: 'yes', name: 'The Cottage' }
+Name: Nova Scotia Place, Lat: 51.4471735, Lon: -2.6175827, Tags: { amenity: 'ferry_terminal', ferry: 'yes', name: 'Nova Scotia Place' }
+Name: Bristol Marina, Lat: 51.4484709, Lon: -2.6129235, Tags: {
+  amenity: 'ferry_terminal',
+  ferry: 'yes',
+  name: 'Bristol Marina',
+  operator: 'Bristol Community Ferry Boats Ltd',
+  tourism: 'attraction',
+  wheelchair: 'yes'
+}
+Name: Mardyke, Lat: 51.4491382, Lon: -2.613091, Tags: { amenity: 'ferry_terminal', ferry: 'yes', name: 'Mardyke' }
+Name: Welsh Back, Lat: 51.4524736, Lon: -2.5924017, Tags: {
+  amenity: 'ferry_terminal',
+  ferry: 'yes',
+  name: 'Welsh Back',
+  ref: '13',
+  tourism: 'attraction'
+}
+Name: Castle Park, Lat: 51.4549873, Lon: -2.5887009, Tags: {
+  amenity: 'ferry_terminal',
+  ferry: 'yes',
+  name: 'Castle Park',
+  wheelchair: 'no'
+}
+Name: Temple Quay, Lat: 51.4515123, Lon: -2.5812173, Tags: {
+  amenity: 'ferry_terminal',
+  ferry: 'yes',
+  name: 'Temple Quay',
+  shelter: 'yes'
+}
+Name: SS Great Britain, Lat: 51.4490229, Lon: -2.6070286, Tags: {
+  amenity: 'ferry_terminal',
+  ferry: 'yes',
+  name: 'SS Great Britain',
+  wheelchair: 'limited'
+}
+Name: Conham Ferry (South bank, Beese's), Lat: 51.4445532, Lon: -2.5353804, Tags: {
+  amenity: 'ferry_terminal',
+  ferry: 'yes',
+  name: "Conham Ferry (South bank, Beese's)",
+  public_transport: 'station'
+}
+Name: Harbour Inlet, Lat: 51.4492722, Lon: -2.6060108, Tags: {
+  amenity: 'ferry_terminal',
+  ferry: 'yes',
+  internet_access: 'no',
+  name: 'Harbour Inlet',
+  network: 'Number 7 Boat Trips',
+  operator: 'Mary Brunel - Number 7',
+  public_transport: 'station',
+  website: 'https://www.numbersevenboattrips.com/boats.html',
+  wheelchair: 'limited'
+}
+Name: Redcliffe Back, Lat: 51.4523296, Lon: -2.5916108, Tags: {
+  amenity: 'ferry_terminal',
+  ferry: 'yes',
+  name: 'Redcliffe Back',
+  ref: '14',
+  tourism: 'attraction',
+  wheelchair: 'no'
+}
+Name: Bathurst Basin, Lat: 51.4479815, Lon: -2.5942194, Tags: {
+  amenity: 'ferry_terminal',
+  ferry: 'yes',
+  name: 'Bathurst Basin',
+  tourism: 'attraction'
+}
+Name: New Harbor, Lat: 43.8749795, Lon: -69.489886, Tags: {
+  amenity: 'ferry_terminal',
+  ferry: 'yes',
+  name: 'New Harbor',
+  network: 'New Harbor - Monhegan Island',
+  operator: 'Hardy Boat Cruises',
+  public_transport: 'station'
+}
+Name: Netham Lock, Lat: 51.4520077, Lon: -2.5549193, Tags: {
+  amenity: 'ferry_terminal',
+  description: 'Twice daily commuter service',
+  ferry: 'yes',
+  name: 'Netham Lock'
+}
+Name: Bristol Packet Office, Lat: 51.4486361, Lon: -2.6064664, Tags: {
+  amenity: 'ferry_terminal',
+  ferry: 'yes',
+  name: 'Bristol Packet Office',
+  operator: 'Bristol Packet Boat Trips',
+  tourism: 'attraction',
+  wheelchair: 'yes'
+}
+Name: Wapping Wharf, Lat: 51.447297, Lon: -2.6020316, Tags: {
+  amenity: 'ferry_terminal',
+  ferry: 'yes',
+  name: 'Wapping Wharf',
+  operator: 'Number Seven Boat Trips;Bristol Community Ferry Boats Ltd',
+  wheelchair: 'limited'
+}

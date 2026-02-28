@@ -1,0 +1,240 @@
+:root {
+    /* WCAG Compliant Colors */
+    --primary-color: #0b0c0c;
+    /* GDS Black */
+    --secondary-color: #1d70b8;
+    /* GDS Blue */
+    --background: #f3f2f1;
+    /* GDS Light Grey */
+    --surface: #ffffff;
+    --text-main: #0b0c0c;
+    --text-inverse: #ffffff;
+
+    --focus-color: #ffdd00;
+    /* GDS Yellow */
+    --border-color: #b1b4b6;
+
+    /* Typography */
+    --font-family: "GDS Transport", Arial, sans-serif;
+    --base-font-size: 16px;
+
+    /* Sizing */
+    --min-touch-target: 32px;
+    /* Well above 24px spec */
+    --sidebar-width: 350px;
+}
+
+/* Base Reset & Typography */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-family);
+    font-size: var(--base-font-size);
+    background-color: var(--background);
+    color: var(--text-main);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Accessibility Focus */
+*:focus-visible {
+    outline: 4px solid var(--focus-color);
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+
+/* App Layout Container */
+#app {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+header {
+    background-color: var(--primary-color);
+    color: var(--text-inverse);
+    padding: 1rem;
+    text-align: center;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+main {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    /* Mobile by default */
+    position: relative;
+}
+
+/* Map Area */
+#map-container {
+    flex: 1;
+    position: relative;
+    min-height: 50vh;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+/* Live Status List (Sidebar / Bottom Sheet) */
+#status-panel {
+    background-color: var(--surface);
+    border-top: 2px solid var(--border-color);
+    padding: 1rem;
+    overflow-y: auto;
+    max-height: 50vh;
+    /* Bottom sheet on mobile */
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#status-panel h2 {
+    margin: 0 0 1rem 0;
+    font-size: 1.25rem;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 0.5rem;
+}
+
+.status-card {
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 1rem;
+    background-color: var(--surface);
+}
+
+.status-card header {
+    background: none;
+    color: var(--text-main);
+    padding: 0;
+    margin-bottom: 0.5rem;
+    box-shadow: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-align: left;
+}
+
+.status-card header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.vessel-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    color: var(--text-main);
+    font-weight: bold;
+    border: 2px solid var(--text-main);
+}
+
+.status-details {
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.status-details strong {
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.next-info {
+    font-size: 0.9rem;
+    color: #555;
+    margin-top: 4px;
+}
+
+/* Leaflet Custom Markers */
+.vessel-marker {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    /* Contrast is ensured via inline styles mapping to vessel col/text */
+}
+
+/* Stop Marker Labels */
+.leaflet-tooltip.stop-label {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    color: var(--text-main);
+    font-weight: bold;
+    font-size: 14px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-top: 0;
+}
+
+.leaflet-tooltip.stop-label::before {
+    border-top-color: var(--primary-color);
+}
+
+/* Responsive Breakpoints */
+
+/* Desktop (Medium) */
+@media (min-width: 768px) {
+    main {
+        flex-direction: row;
+    }
+
+    #status-panel {
+        border-top: none;
+        border-left: 2px solid var(--border-color);
+        width: var(--sidebar-width);
+        max-height: none;
+        /* Full height */
+    }
+}
+
+/* Large Display (M Shed / Reception Monitors) */
+@media (min-width: 1400px) {
+    :root {
+        --base-font-size: 20px;
+        /* 20pt+ requirement */
+        --sidebar-width: 450px;
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+
+    #status-panel h2 {
+        font-size: 1.8rem;
+    }
+
+    .status-card header h3 {
+        font-size: 1.5rem;
+    }
+
+    .vessel-badge,
+    .vessel-marker {
+        width: 48px;
+        height: 48px;
+        font-size: 24px;
+        border-width: 3px;
+    }
+}
