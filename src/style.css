@@ -102,7 +102,7 @@ a:visited {
 .govuk-button:focus,
 .govuk-button:visited:hover,
 .govuk-button:visited:focus {
-    background-color: var(--govuk-button-hover);
+    background-color: var(--govuk-button-hover) !important;
     color: var(--text-inverse) !important;
 }
 
@@ -180,7 +180,9 @@ main {
     background-color: var(--surface);
     border-top: 2px solid var(--border-color);
     padding: 1rem;
-    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+    padding-bottom: 80px;
+    /* Buffer for mobile Safari/Chrome address bars */
+    padding-bottom: max(80px, env(safe-area-inset-bottom));
     overflow-y: auto;
     flex: 1;
     /* Bottom sheet on mobile */
