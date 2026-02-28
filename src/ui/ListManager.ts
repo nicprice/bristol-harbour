@@ -21,9 +21,16 @@ export class ListManager {
             // or put aria-live on a separate visually hidden element.
             // For simplicity mapping direct to spec here:
 
-            const color = vessel.color || '#ccc';
-            // WCAG contrast check (simplified): yellow on white is bad, need dark text.
-            const textColor = '#000'; // dark text for colored badges
+            let color = vessel.color || '#ccc';
+            let textColor = '#000'; // fallback dark text
+
+            if (vessel.name === 'Matilda') {
+                color = '#fada5e';
+                textColor = '#005b96';
+            } else if (vessel.name === 'Brigantia') {
+                color = '#005b96';
+                textColor = '#fada5e';
+            }
 
             let statusText = vessel.status || 'Unknown';
             if (vessel.status === 'Estimated' || vessel.status === 'Scheduled') {
