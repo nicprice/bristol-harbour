@@ -43,8 +43,7 @@ export interface Route {
     path: Coordinates[]; // For drawing the polyline
 }
 
-// Data: Updated to today so ferries are moving now
-const baseDate = "2026-02-28T";
+// Data: Updated to dynamically generate times so ferries are always active
 
 // Bristol Harbour accurate water coordinates
 export const stops: Stop[] = [
@@ -172,6 +171,20 @@ export const bristolFerriesRoute: Route = {
     path: routePath
 };
 
+function generateDynamicSchedule(stopIds: string[], offsetsFromStartMinutes: number[], dockDurationsMinutes: number[], startOffsetFromNowMinutes: number): StopTime[] {
+    const now = Date.now();
+    const startTimeMs = now + startOffsetFromNowMinutes * 60000;
+    return stopIds.map((stopId, i) => {
+        const arrivalTimeMs = startTimeMs + offsetsFromStartMinutes[i] * 60000;
+        const departureTimeMs = arrivalTimeMs + dockDurationsMinutes[i] * 60000;
+        return {
+            stopId,
+            arrivalTime: new Date(arrivalTimeMs).toISOString(),
+            departureTime: new Date(departureTimeMs).toISOString()
+        };
+    });
+}
+
 export const mockVessels: Vessel[] = [
     {
         id: 'ferry-1',
@@ -181,14 +194,12 @@ export const mockVessels: Vessel[] = [
         color: '#fada5e', // yellow
         textInitial: 'M',
         avatarUrl: 'assets/matilda.png',
-        schedule: [
-            { stopId: 'temple-meads', arrivalTime: baseDate + '12:05:00Z', departureTime: baseDate + '12:10:00Z' },
-            { stopId: 'castle-park', arrivalTime: baseDate + '12:15:00Z', departureTime: baseDate + '12:17:00Z' },
-            { stopId: 'city-centre', arrivalTime: baseDate + '12:25:00Z', departureTime: baseDate + '12:28:00Z' },
-            { stopId: 'ss-great-britain', arrivalTime: baseDate + '12:35:00Z', departureTime: baseDate + '12:37:00Z' },
-            { stopId: 'mardyke', arrivalTime: baseDate + '12:45:00Z', departureTime: baseDate + '12:47:00Z' },
-            { stopId: 'hotwells', arrivalTime: baseDate + '12:55:00Z', departureTime: baseDate + '13:00:00Z' }
-        ]
+        schedule: generateDynamicSchedule(
+            ['temple-meads', 'castle-park', 'city-centre', 'ss-great-britain', 'mardyke', 'hotwells'],
+            [0, 10, 20, 30, 40, 50],
+            [5, 2, 3, 2, 2, 5],
+            -20 // Start 20 mins ago
+        )
     },
     {
         id: 'ferry-2',
@@ -198,13 +209,11 @@ export const mockVessels: Vessel[] = [
         color: '#005b96', // blue
         textInitial: 'B',
         avatarUrl: 'assets/brigantia.png',
-        schedule: [
-            { stopId: 'hotwells', arrivalTime: baseDate + '12:05:00Z', departureTime: baseDate + '12:10:00Z' },
-            { stopId: 'mardyke', arrivalTime: baseDate + '12:21:00Z', departureTime: baseDate + '12:23:00Z' },
-            { stopId: 'ss-great-britain', arrivalTime: baseDate + '12:27:00Z', departureTime: baseDate + '12:29:00Z' },
-            { stopId: 'city-centre', arrivalTime: baseDate + '12:35:00Z', departureTime: baseDate + '12:38:00Z' },
-            { stopId: 'castle-park', arrivalTime: baseDate + '12:43:00Z', departureTime: baseDate + '12:45:00Z' },
-            { stopId: 'temple-meads', arrivalTime: baseDate + '12:50:00Z', departureTime: baseDate + '12:55:00Z' }
-        ]
+        schedule: generateDynamicSchedule(
+            ['hotwells', 'mardyke', 'ss-great-britain', 'city-centre', 'castle-park', 'temple-meads'],
+            [0, 16, 22, 30, 38, 45],
+            [5, 2, 2, 3, 2, 5],
+            -15 // Start 15 mins ago
+        )
     }
 ];
