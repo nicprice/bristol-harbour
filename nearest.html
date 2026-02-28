@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nearest Ferry | Bristol Harbour</title>
+    <style>
+        body {
+            background-color: var(--surface-100);
+            color: var(--color-text);
+            padding: 2rem;
+            max-width: max-content;
+            min-width: 100%;
+            margin: 0 auto;
+            font-family: Arial, sans-serif;
+            overflow: visible !important;
+            height: auto !important;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .loading,
+        .error-message {
+            font-size: 1.25rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .error-message {
+            color: #d4351c;
+            /* Error red */
+        }
+
+        .result-panel {
+            display: none;
+            background-color: var(--surface);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
+            margin-top: 2rem;
+        }
+
+        .nearest-stop-title {
+            margin-top: 0;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .distance {
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 1.5rem;
+        }
+
+        .arrival-card {
+            background: #f4f4f4;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .vessel-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 1.5rem;
+            border: 2px solid var(--text-main);
+        }
+
+        .arrival-info {
+            flex: 1;
+        }
+
+        .arrival-info h3 {
+            margin: 0 0 0.25rem 0;
+            font-size: 1.25rem;
+        }
+
+        .arrival-time {
+            font-size: 1.1rem;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="./index.html" class="back-link">&larr; Back to Home</a>
+
+    <h1>Find Your Nearest Ferry</h1>
+
+    <div id="loading" class="loading" aria-live="polite">
+        Locating you... please allow location access.
+    </div>
+
+    <div id="error" class="error-message" aria-live="polite" style="display: none;"></div>
+
+    <div id="result" class="result-panel" aria-live="polite">
+        <h2 id="stop-name" class="nearest-stop-title">Stop Name</h2>
+        <p id="stop-distance" class="distance">Distance: --</p>
+
+        <div id="arrivals">
+            <!-- Inserted by JS -->
+        </div>
+    </div>
+
+    <!-- Need to load common styles and then our logic script -->
+    <script type="module" src="./src/style.css"></script>
+    <script type="module" src="./src/nearest.ts"></script>
+</body>
+
+</html>

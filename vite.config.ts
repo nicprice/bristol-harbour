@@ -6,7 +6,9 @@ export default defineConfig({
         rollupOptions: {
             input: {
                 main: 'index.html',
+                map: 'map.html',
                 timetable: 'timetable.html',
+                nearest: 'nearest.html'
             }
         }
     }

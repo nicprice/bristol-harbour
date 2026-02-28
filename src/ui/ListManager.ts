@@ -55,7 +55,7 @@ export class ListManager {
                     <h3>${vessel.name}</h3>
                 </header>
                 <div class="status-details">
-                    <strong>Status:</strong> <span aria-live="polite">${statusText}</span>
+                    Status: <span aria-live="polite">${statusText}</span>
                 </div>
                 ${nextInfo}
             `;
