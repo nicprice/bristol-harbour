@@ -47,7 +47,8 @@ export interface Route {
 
 // Bristol Harbour accurate water coordinates
 export const stops: Stop[] = [
-    { id: 'mooring', name: 'Mooring', coords: { lat: 51.44905332904635, lon: -2.5960349357861197 } },
+    { id: 'mooring-1', name: 'Mooring (Matilda)', coords: { lat: 51.449053, lon: -2.596035 } },
+    { id: 'mooring-2', name: 'Mooring (Brigantia)', coords: { lat: 51.449000, lon: -2.595800 } },
     { id: 'temple-meads', name: 'Temple Meads', coords: { lat: 51.4515123, lon: -2.5812173 } },
     { id: 'castle-park', name: 'Castle Park', coords: { lat: 51.4549873, lon: -2.5887009 } },
     { id: 'city-centre', name: 'City Centre', coords: { lat: 51.4520327, lon: -2.597747 } },
@@ -174,7 +175,7 @@ export const bristolFerriesRoute: Route = {
     path: routePath
 };
 
-function generateDynamicSchedule(startOffsetFrom1120Minutes: number, startH: number, startM: number, endH: number, endM: number): StopTime[] {
+function generateDynamicSchedule(startOffsetFrom1120Minutes: number, startH: number, startM: number, endH: number, endM: number, mooringId: string): StopTime[] {
     const stopIds = [
         'temple-meads', 'castle-park', 'city-centre', 'wapping-wharf', 'ss-great-britain', 'mardyke', 'hotwells',
         'mardyke', 'ss-great-britain', 'wapping-wharf', 'city-centre', 'castle-park'
@@ -215,14 +216,14 @@ function generateDynamicSchedule(startOffsetFrom1120Minutes: number, startH: num
 
     // Prepend mooring 15 mins before first stop
     operationalSchedule.unshift({
-        stopId: 'mooring',
+        stopId: mooringId,
         arrivalTime: new Date(startFilterMs - 15 * 60000).toISOString(),
         departureTime: new Date(startFilterMs - 15 * 60000).toISOString()
     });
 
     // Append mooring 15 mins after last stop
     operationalSchedule.push({
-        stopId: 'mooring',
+        stopId: mooringId,
         arrivalTime: new Date(endFilterMs + 15 * 60000).toISOString(),
         departureTime: new Date(endFilterMs + 15 * 60000).toISOString()
     });
@@ -239,7 +240,7 @@ export const mockVessels: Vessel[] = [
         color: '#fada5e', // yellow
         textInitial: 'M',
         avatarUrl: 'assets/matilda.png',
-        schedule: generateDynamicSchedule(0, 11, 20, 15, 37) // Matilda active 11:20 to 15:37
+        schedule: generateDynamicSchedule(0, 11, 20, 15, 37, 'mooring-1') // Matilda active 11:20 to 15:37
     },
     {
         id: 'ferry-2',
@@ -249,6 +250,6 @@ export const mockVessels: Vessel[] = [
         color: '#005b96', // blue
         textInitial: 'B',
         avatarUrl: 'assets/brigantia.png',
-        schedule: generateDynamicSchedule(-40, 11, 20, 15, 35) // Brigantia active 11:20 to 15:35
+        schedule: generateDynamicSchedule(-40, 11, 20, 15, 35, 'mooring-2') // Brigantia active 11:20 to 15:35
     }
 ];
