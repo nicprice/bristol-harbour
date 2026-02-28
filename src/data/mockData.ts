@@ -230,7 +230,7 @@ export const mockVessels: Vessel[] = [
         positionSource: 'TIMETABLE',
         color: '#005b96', // blue
         textInitial: 'B',
-        avatarUrl: 'assets/brigantia_circle.png',
+        avatarUrl: 'assets/brigantia.png',
         schedule: generateDynamicSchedule(-40) // Anchored precisely 40 mins earlier (10:40, so loop 2 is 12:00)
     }
 ];
