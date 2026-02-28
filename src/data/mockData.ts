@@ -174,7 +174,7 @@ export const bristolFerriesRoute: Route = {
     path: routePath
 };
 
-function generateDynamicSchedule(startOffsetFrom1120Minutes: number): StopTime[] {
+function generateDynamicSchedule(startOffsetFrom1120Minutes: number, startH: number, startM: number, endH: number, endM: number): StopTime[] {
     const stopIds = [
         'temple-meads', 'castle-park', 'city-centre', 'wapping-wharf', 'ss-great-britain', 'mardyke', 'hotwells',
         'mardyke', 'ss-great-britain', 'wapping-wharf', 'city-centre', 'castle-park'
@@ -187,23 +187,16 @@ function generateDynamicSchedule(startOffsetFrom1120Minutes: number): StopTime[]
     const baseTimeMs = new Date().setUTCHours(11, 20, 0, 0);
     const startTimeMs = baseTimeMs + startOffsetFrom1120Minutes * 60000;
 
-    let schedule: StopTime[] = [];
+    let rawSchedule: StopTime[] = [];
 
-    // Add initial mooring departure 15 minutes before the first stop
-    schedule.push({
-        stopId: 'mooring',
-        arrivalTime: new Date(startTimeMs - 15 * 60000).toISOString(),
-        departureTime: new Date(startTimeMs - 15 * 60000).toISOString()
-    });
-
-    const loops = 5; // Generate schedule for next ~6.5 hours
+    const loops = 5; // Generate excess schedule to filter down
 
     for (let l = 0; l < loops; l++) {
         const loopOffset = l * 80;
         for (let i = 0; i < stopIds.length; i++) {
             const arr = startTimeMs + (loopOffset + baseArrivalOffsets[i]) * 60000;
             const dep = arr + dockDurations[i] * 60000;
-            schedule.push({
+            rawSchedule.push({
                 stopId: stopIds[i],
                 arrivalTime: new Date(arr).toISOString(),
                 departureTime: new Date(dep).toISOString()
@@ -211,22 +204,30 @@ function generateDynamicSchedule(startOffsetFrom1120Minutes: number): StopTime[]
         }
     }
 
-    // Cap it with a final Temple Meads stop to complete the last loop
-    const finalArr = startTimeMs + ((loops * 80) + 0) * 60000;
-    schedule.push({
-        stopId: 'temple-meads',
-        arrivalTime: new Date(finalArr).toISOString(),
-        departureTime: new Date(finalArr).toISOString()
+    // Filter to active hours
+    const startFilterMs = new Date().setUTCHours(startH, startM, 0, 0);
+    const endFilterMs = new Date().setUTCHours(endH, endM, 0, 0);
+
+    const operationalSchedule = rawSchedule.filter(s => {
+        const t = new Date(s.arrivalTime).getTime();
+        return t >= startFilterMs && t <= endFilterMs;
     });
 
-    // Add final mooring arrival 15 minutes after the last stop
-    schedule.push({
+    // Prepend mooring 15 mins before first stop
+    operationalSchedule.unshift({
         stopId: 'mooring',
-        arrivalTime: new Date(finalArr + 15 * 60000).toISOString(),
-        departureTime: new Date(finalArr + 15 * 60000).toISOString() // Will sit here forever
+        arrivalTime: new Date(startFilterMs - 15 * 60000).toISOString(),
+        departureTime: new Date(startFilterMs - 15 * 60000).toISOString()
     });
 
-    return schedule;
+    // Append mooring 15 mins after last stop
+    operationalSchedule.push({
+        stopId: 'mooring',
+        arrivalTime: new Date(endFilterMs + 15 * 60000).toISOString(),
+        departureTime: new Date(endFilterMs + 15 * 60000).toISOString()
+    });
+
+    return operationalSchedule;
 }
 
 export const mockVessels: Vessel[] = [
@@ -238,7 +239,7 @@ export const mockVessels: Vessel[] = [
         color: '#fada5e', // yellow
         textInitial: 'M',
         avatarUrl: 'assets/matilda.png',
-        schedule: generateDynamicSchedule(0) // Anchored directly to 11:20 start
+        schedule: generateDynamicSchedule(0, 11, 20, 15, 37) // Matilda active 11:20 to 15:37
     },
     {
         id: 'ferry-2',
@@ -248,6 +249,6 @@ export const mockVessels: Vessel[] = [
         color: '#005b96', // blue
         textInitial: 'B',
         avatarUrl: 'assets/brigantia.png',
-        schedule: generateDynamicSchedule(-40) // Anchored precisely 40 mins earlier (10:40, so loop 2 is 12:00)
+        schedule: generateDynamicSchedule(-40, 11, 20, 15, 35) // Brigantia active 11:20 to 15:35
     }
 ];
