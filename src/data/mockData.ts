@@ -50,6 +50,7 @@ export const stops: Stop[] = [
     { id: 'temple-meads', name: 'Temple Meads', coords: { lat: 51.4515123, lon: -2.5812173 } },
     { id: 'castle-park', name: 'Castle Park', coords: { lat: 51.4549873, lon: -2.5887009 } },
     { id: 'city-centre', name: 'City Centre', coords: { lat: 51.4520327, lon: -2.597747 } },
+    { id: 'wapping-wharf', name: 'Wapping Wharf', coords: { lat: 51.4475188, lon: -2.6016256 }, landCoords: { lat: 51.447470, lon: -2.601550 } },
     { id: 'ss-great-britain', name: 'ss Great Britain', coords: { lat: 51.4490229, lon: -2.6070286 } },
     { id: 'mardyke', name: 'Mardyke', coords: { lat: 51.4491382, lon: -2.613091 } },
     { id: 'hotwells', name: 'Hotwells', coords: { lat: 51.4471483, lon: -2.6158254 } },
@@ -195,9 +196,9 @@ export const mockVessels: Vessel[] = [
         textInitial: 'M',
         avatarUrl: 'assets/matilda.png',
         schedule: generateDynamicSchedule(
-            ['temple-meads', 'castle-park', 'city-centre', 'ss-great-britain', 'mardyke', 'hotwells'],
-            [0, 10, 20, 30, 40, 50],
-            [5, 2, 3, 2, 2, 5],
+            ['temple-meads', 'castle-park', 'city-centre', 'wapping-wharf', 'ss-great-britain', 'mardyke', 'hotwells'],
+            [0, 10, 20, 27, 34, 42, 50],
+            [5, 2, 3, 2, 2, 2, 5],
             -20 // Start 20 mins ago
         )
     },
@@ -210,9 +211,9 @@ export const mockVessels: Vessel[] = [
         textInitial: 'B',
         avatarUrl: 'assets/brigantia.png',
         schedule: generateDynamicSchedule(
-            ['hotwells', 'mardyke', 'ss-great-britain', 'city-centre', 'castle-park', 'temple-meads'],
-            [0, 16, 22, 30, 38, 45],
-            [5, 2, 2, 3, 2, 5],
+            ['hotwells', 'mardyke', 'ss-great-britain', 'wapping-wharf', 'city-centre', 'castle-park', 'temple-meads'],
+            [0, 16, 22, 28, 35, 42, 48],
+            [5, 2, 2, 2, 3, 2, 5],
             -15 // Start 15 mins ago
         )
     }

@@ -9,17 +9,30 @@ function calcDistance(p1: Coordinates, p2: Coordinates): number {
 }
 
 function getSubPath(path: Coordinates[], start: Coordinates, end: Coordinates): Coordinates[] {
-    const startIndex = path.findIndex(p => p.lat === start.lat && p.lon === start.lon);
-    const endIndex = path.findIndex(p => p.lat === end.lat && p.lon === end.lon);
+    // Find closest nodes in path to start and end
+    let startIdx = 0;
+    let endIdx = 0;
+    let minStartDist = Infinity;
+    let minEndDist = Infinity;
 
-    if (startIndex === -1 || endIndex === -1) {
-        return [start, end]; // Fallback to straight line
+    for (let i = 0; i < path.length; i++) {
+        const p = path[i];
+        const sd = calcDistance(p, start);
+        if (sd < minStartDist) {
+            minStartDist = sd;
+            startIdx = i;
+        }
+        const ed = calcDistance(p, end);
+        if (ed < minEndDist) {
+            minEndDist = ed;
+            endIdx = i;
+        }
     }
 
-    if (startIndex <= endIndex) {
-        return path.slice(startIndex, endIndex + 1);
+    if (startIdx <= endIdx) {
+        return path.slice(startIdx, endIdx + 1);
     } else {
-        const sub = path.slice(endIndex, startIndex + 1);
+        const sub = path.slice(endIdx, startIdx + 1);
         sub.reverse();
         return sub;
     }
