@@ -1,53 +1,29 @@
 import './style.css';
-import { mockVessels, stops, StopTime } from './data/mockData';
+import { mockVessels, stops } from './data/mockData';
 
 function renderBoatTimetable(vesselId: string, containerId: string) {
     const vessel = mockVessels.find(v => v.id === vesselId);
     const container = document.querySelector(`#${containerId} .table-wrapper`);
     if (!vessel || !container || !vessel.schedule) return;
 
-    // We want a row for each stop, and columns for each "trip"
-    // For this mock tracker, trips roughly start at Temple Meads or Hotwells
-    // Let's identify the unique stops in order for the rows
-    const uniqueStopIds = [
-        'temple-meads', 'castle-park', 'city-centre', 'wapping-wharf', 'ss-great-britain', 'mardyke', 'hotwells'
-    ];
-
-    // Group schedule into columns. 
-    // Each "trip" in our dynamic schedule starts a new column when it hits an anchor stop or restarts.
-    // For simplicity, we'll split based on the loop sequence in generateDynamicSchedule.
-    const columns: StopTime[][] = [];
-    let currentColumn: StopTime[] = [];
+    let html = `<table class="sequential-timetable">
+        <thead>
+            <tr>
+                <th scope="col">Time</th>
+                <th scope="col">Stop</th>
+            </tr>
+        </thead>
+        <tbody>`;
 
     vessel.schedule.forEach((item) => {
-        // Simple heuristic: new column if we hit Temple Meads again or start of day
-        if ((item.stopId === 'temple-meads') && currentColumn.length > 0) {
-            columns.push(currentColumn);
-            currentColumn = [];
-        }
-        currentColumn.push(item);
-    });
-    if (currentColumn.length > 0) columns.push(currentColumn);
+        const stopName = stops.find(s => s.id === item.stopId)?.name || item.stopId;
+        const date = new Date(item.arrivalTime);
+        const timeStr = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
 
-    let html = `<table><thead><tr><th>Location</th>`;
-    columns.forEach((_, i) => html += `<th scope="col">Trip ${i + 1}</th>`);
-    html += `</tr></thead><tbody>`;
-
-    uniqueStopIds.forEach(stopId => {
-        const stopName = stops.find(s => s.id === stopId)?.name || stopId;
-        html += `<tr><th scope="row">${stopName}</th>`;
-
-        columns.forEach(col => {
-            const timeEntry = col.find(s => s.stopId === stopId);
-            if (timeEntry) {
-                const date = new Date(timeEntry.arrivalTime);
-                const timeStr = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
-                html += `<td data-time-ms="${date.getTime()}">${timeStr}</td>`;
-            } else {
-                html += `<td>-</td>`;
-            }
-        });
-        html += `</tr>`;
+        html += `<tr>
+            <td data-time-ms="${date.getTime()}" class="time-cell">${timeStr}</td>
+            <td class="stop-cell">${stopName}</td>
+        </tr>`;
     });
 
     html += `</tbody></table>`;
@@ -77,7 +53,7 @@ function updateHighlighting() {
             const arrivalMs = new Date(nextArrival.arrivalTime).getTime();
             // Find the cell in this boat's table that matches this timestamp
             const containerId = vessel.name === 'Matilda' ? 'matilda-timetable' : 'brigantia-timetable';
-            const cell = document.querySelector(`#${containerId} td[data-time-ms="${arrivalMs}"]`);
+            const cell = document.querySelector(`#${containerId} .time-cell[data-time-ms="${arrivalMs}"]`);
             if (cell) {
                 cell.classList.add('next-stop-highlight');
             }
