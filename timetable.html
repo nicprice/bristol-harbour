@@ -6,99 +6,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bristol Ferry Timetable</title>
     <style>
-        body {
-            background-color: var(--surface-100);
-            color: var(--color-text);
-            padding: 2rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 2rem;
-            background-color: var(--surface-200);
-            box-shadow: var(--shadow-sm);
-        }
-
-        th,
-        td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        th {
-            background-color: var(--primary-color);
-            color: white;
-            font-weight: 600;
-        }
-
-        tr:nth-child(even) {
-            background-color: var(--surface-100);
-        }
-
-        .dock-name {
-            font-weight: 500;
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-bottom: 1rem;
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .back-link:hover {
-            text-decoration: underline;
-        }
-
-        h1 {
-            margin-bottom: 0.5rem;
-        }
-
-        .subtitle {
-            color: var(--color-text-muted);
-            margin-bottom: 2rem;
-        }
-
-        button.scroll-table {
-            display: none;
-        }
-
-
-
-        @media (max-width: 600px) {
-            .scroll-hint {
-                display: block;
-                text-align: right;
-                font-size: 0.875rem;
-                color: var(--color-text-muted);
-                margin-bottom: 0.5rem;
-                font-style: italic;
-            }
-        }
-
-        @media (min-width: 601px) {
-            .scroll-hint {
-                display: none;
-            }
-        }
-
-        .visually-hidden {
-            position: absolute !important;
-            width: 1px !important;
-            height: 1px !important;
-            padding: 0 !important;
-            margin: -1px !important;
-            overflow: hidden !important;
-            clip: rect(0, 0, 0, 0) !important;
-            white-space: nowrap !important;
-            border: 0 !important;
-        }
-    </style>
+    body {
+        background-color: var(--surface-100);
+        color: var(--color-text);
+        padding: 2rem;
+        max-width: 800px;
+        margin: 0 auto;
+        font-family: Arial, sans-serif;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 2rem;
+        background-color: var(--surface-200);
+    }
+    th, td {
+        padding: 0.75rem;
+        text-align: left;
+        border: 1px solid var(--border-color);
+    }
+    caption {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        text-align: left;
+    }
+</style>
 </head>
 
 <body>
@@ -108,13 +41,11 @@
     <h1>Bristol Ferry Timetable</h1>
     <p class="subtitle">2 Boats - Full Service (Winter Timetable)<br />Weekends Only (Daily for School Holidays)</p>
 
-    <h2>Outbound: Temple Quay to Hotwells</h2>
-    <div class="scroll-hint">Scroll <span aria-hidden="true">&rarr;</span></div>
-    <div class="table-container" tabindex="0" role="region" aria-label="Outbound timetable">
-        <table>
-            <thead class="visually-hidden">
+    <table>
+        <caption>Outbound: Temple Quay to Hotwells</caption>
+            <thead>
                 <tr>
-                    <th scope="col">Stop</th>
+                    <td></td>
                     <th scope="col">Time</th>
                     <th scope="col">Time</th>
                     <th scope="col">Time</th>
@@ -127,7 +58,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td class="dock-name" scope="row">Temple Quay</td>
+                    <th scope="row">Temple Quay</th>
                     <td></td>
                     <td>11:20</td>
                     <td>12:00</td>
@@ -138,7 +69,7 @@
                     <td>15:20</td>
                 </tr>
                 <tr>
-                    <td class="dock-name" scope="row">Castle Park</td>
+                    <th scope="row">Castle Park</th>
                     <td></td>
                     <td>
                         11:25
@@ -151,7 +82,7 @@
                     <td>15:25</td>
                 </tr>
                 <tr>
-                    <td class="dock-name" scope="row">City Centre (Arrive)</td>
+                    <th scope="row">City Centre (Arrive)</th>
                     <td></td>
                     <td>
                         11:37
@@ -164,7 +95,7 @@
                     <td>15:37</td>
                 </tr>
                 <tr>
-                    <td class="dock-name" scope="row">City Centre (Depart)</td>
+                    <th scope="row">City Centre (Depart)</th>
                     <td></td>
                     <td>11:40</td>
                     <td>12:20</td>
@@ -175,7 +106,7 @@
                     <td>END</td>
                 </tr>
                 <tr>
-                    <td class="dock-name" scope="row">Wapping Wharf</td>
+                    <th scope="row">Wapping Wharf</th>
                     <td></td>
                     <td>11:47</td>
                     <td>12:27</td>
@@ -186,7 +117,7 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td class="dock-name" scope="row">ss Great Britain</td>
+                    <th scope="row">ss Great Britain</th>
                     <td></td>
                     <td>11:50</td>
                     <td>12:30</td>
@@ -197,7 +128,7 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td class="dock-name" scope="row">Mardyke</td>
+                    <th scope="row">Mardyke</th>
                     <td></td>
                     <td>11:54</td>
                     <td>12:34</td>
@@ -208,7 +139,7 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td class="dock-name" scope="row">Cottage (Hotwells)</td>
+                    <th scope="row">Cottage (Hotwells)</th>
                     <td>11:20</td>
                     <td>12:00</td>
                     <td>12:40</td>
@@ -219,7 +150,7 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td class="dock-name" scope="row">Mardyke</td>
+                    <th scope="row">Mardyke</th>
                     <td>11:22</td>
                     <td>12:02</td>
                     <td>12:42</td>
@@ -230,7 +161,7 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td class="dock-name" scope="row">ss Great Britain</td>
+                    <th scope="row">ss Great Britain</th>
                     <td>11:25</td>
                     <td>12:05</td>
                     <td>12:45</td>
@@ -241,7 +172,7 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td class="dock-name" scope="row">Wapping Wharf</td>
+                    <th scope="row">Wapping Wharf</th>
                     <td>11:28</td>
                     <td>12:08</td>
                     <td>12:48</td>
@@ -252,7 +183,7 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td class="dock-name" scope="row">City Centre (Arrive)</td>
+                    <th scope="row">City Centre (Arrive)</th>
                     <td>11:35</td>
                     <td>12:15</td>
                     <td>12:55</td>
@@ -263,7 +194,7 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td class="dock-name" scope="row">City Centre (Depart)</td>
+                    <th scope="row">City Centre (Depart)</th>
                     <td>11:40</td>
                     <td>12:20</td>
                     <td>13:00</td>
@@ -274,7 +205,7 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td class="dock-name" scope="row">Castle Park</td>
+                    <th scope="row">Castle Park</th>
                     <td>11:53</td>
                     <td>12:33</td>
                     <td>13:13</td>
@@ -285,7 +216,7 @@
                     <td></td>
                 </tr>
                 <tr>
-                    <td class="dock-name" scope="row">Temple Quay</td>
+                    <th scope="row">Temple Quay</th>
                     <td>12:00</td>
                     <td>12:40</td>
                     <td>13:20</td>
@@ -297,7 +228,6 @@
                 </tr>
             </tbody>
         </table>
-    </div>
 
     <!-- Script to highlight next stops -->
     <script type="module" src="./src/timetable.ts"></script>
