@@ -157,6 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         },
         (error) => {
+            console.error('Geolocation error:', error);
             loadingEl.style.display = 'none';
             errorEl.style.display = 'block';
             switch (error.code) {
@@ -167,13 +168,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     errorEl.textContent = "Location information is unavailable.";
                     break;
                 case error.TIMEOUT:
-                    errorEl.textContent = "The request to get user location timed out.";
+                    errorEl.textContent = "The request to get user location timed out. Try refreshing or check your signal.";
                     break;
                 default:
                     errorEl.textContent = "An unknown error occurred getting your location.";
                     break;
             }
         },
-        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+        { enableHighAccuracy: false, timeout: 20000, maximumAge: 30000 }
     );
 });
