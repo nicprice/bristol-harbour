@@ -32,6 +32,8 @@ export class MapManager {
 
     public drawStops(stops: Stop[]): void {
         stops.forEach(stop => {
+            if (stop.id.startsWith('mooring')) return;
+
             const coords = stop.landCoords ? stop.landCoords : stop.coords;
             const marker = L.circleMarker([coords.lat, coords.lon], {
                 radius: 6,
@@ -107,6 +109,7 @@ export class MapManager {
     }
 
     private getNextArrivalTime(stopId: string): string | null {
+        if (stopId.startsWith('mooring')) return null;
         const now = this.trackerEngine ? this.trackerEngine.getCurrentTime() : new Date();
         const nowMs = now.getTime();
         let earliestArrivalMs = Infinity;
@@ -163,6 +166,7 @@ export class MapManager {
     }
 
     private calculateNextArrivals(stopId: string): string {
+        if (stopId.startsWith('mooring')) return '';
         const now = this.trackerEngine ? this.trackerEngine.getCurrentTime() : new Date();
         const nowMs = now.getTime();
 
