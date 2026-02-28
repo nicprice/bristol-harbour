@@ -137,9 +137,10 @@ header {
     background-color: var(--primary-color);
     color: var(--text-inverse);
     padding: 1rem;
-    text-align: center;
+    text-align: left;
     z-index: 1000;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-bottom: 10px solid var(--secondary-color);
+    /* GOV.UK Blue bar */
 }
 
 header h1 {
