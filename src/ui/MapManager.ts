@@ -32,7 +32,7 @@ export class MapManager {
 
     public drawStops(stops: Stop[]): void {
         stops.forEach(stop => {
-            const coords = stop.landCoords || stop.coords;
+            const coords = stop.landCoords ? stop.landCoords : stop.coords;
             const marker = L.circleMarker([coords.lat, coords.lon], {
                 radius: 6,
                 fillColor: '#ffffff',

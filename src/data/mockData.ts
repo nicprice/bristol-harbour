@@ -50,7 +50,7 @@ export const stops: Stop[] = [
     { id: 'temple-meads', name: 'Temple Meads', coords: { lat: 51.4515123, lon: -2.5812173 } },
     { id: 'castle-park', name: 'Castle Park', coords: { lat: 51.4549873, lon: -2.5887009 } },
     { id: 'city-centre', name: 'City Centre', coords: { lat: 51.4520327, lon: -2.597747 } },
-    { id: 'wapping-wharf', name: 'Wapping Wharf', coords: { lat: 51.4475188, lon: -2.6016256 }, landCoords: { lat: 51.447470, lon: -2.601550 } },
+    { id: 'wapping-wharf', name: 'Wapping Wharf', coords: { lat: 51.4475188, lon: -2.6016256 }, landCoords: { lat: 51.447470, lon: -2.601550 } }, // Matches node 12951701043 on the water
     { id: 'ss-great-britain', name: 'ss Great Britain', coords: { lat: 51.4490229, lon: -2.6070286 } },
     { id: 'mardyke', name: 'Mardyke', coords: { lat: 51.4491382, lon: -2.613091 } },
     { id: 'hotwells', name: 'Hotwells', coords: { lat: 51.4471483, lon: -2.6158254 } },
