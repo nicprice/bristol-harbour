@@ -180,7 +180,7 @@ export const mockVessels: Vessel[] = [
         positionSource: 'TIMETABLE',
         color: '#fada5e', // yellow
         textInitial: 'M',
-        avatarUrl: '/assets/matilda.png',
+        avatarUrl: 'assets/matilda.png',
         schedule: [
             { stopId: 'temple-meads', arrivalTime: baseDate + '12:05:00Z', departureTime: baseDate + '12:10:00Z' },
             { stopId: 'castle-park', arrivalTime: baseDate + '12:15:00Z', departureTime: baseDate + '12:17:00Z' },
@@ -197,7 +197,7 @@ export const mockVessels: Vessel[] = [
         positionSource: 'TIMETABLE',
         color: '#005b96', // blue
         textInitial: 'B',
-        avatarUrl: '/assets/brigantia.png',
+        avatarUrl: 'assets/brigantia.png',
         schedule: [
             { stopId: 'hotwells', arrivalTime: baseDate + '12:05:00Z', departureTime: baseDate + '12:10:00Z' },
             { stopId: 'mardyke', arrivalTime: baseDate + '12:21:00Z', departureTime: baseDate + '12:23:00Z' },
