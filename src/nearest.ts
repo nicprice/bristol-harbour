@@ -71,10 +71,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 );
 
                 let isTomorrow = false;
+                let tomorrowSchedule: any[] | undefined;
                 if (!nextArrival) {
                     const tomorrow = new Date();
                     tomorrow.setDate(tomorrow.getDate() + 1);
-                    let tomorrowSchedule;
                     if (vessel.name === 'Matilda') {
                         tomorrowSchedule = generateDynamicSchedule(0, 11, 20, 15, 37, 'mooring-1', tomorrow);
                     } else if (vessel.name === 'Brigantia') {
@@ -93,18 +93,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 let direction = '';
                 if (nextArrival) {
-                    const arrivalIndex = vessel.schedule.indexOf(nextArrival);
+                    const activeSchedule = (isTomorrow && tomorrowSchedule) ? tomorrowSchedule : (vessel.schedule || []);
+                    const arrivalIndex = activeSchedule.indexOf(nextArrival);
+
                     let destStopId = '';
-                    for (let i = arrivalIndex; i < vessel.schedule.length; i++) {
-                        if (vessel.schedule[i].stopId === 'hotwells') {
-                            destStopId = 'hotwells';
-                            break;
-                        }
-                        if (vessel.schedule[i].stopId === 'temple-meads') {
-                            destStopId = 'temple-meads';
-                            break;
+                    if (arrivalIndex !== -1) {
+                        for (let i = arrivalIndex; i < activeSchedule.length; i++) {
+                            const stopInSchedule = activeSchedule[i];
+                            if (stopInSchedule.stopId === 'hotwells') {
+                                destStopId = 'hotwells';
+                                break;
+                            }
+                            if (stopInSchedule.stopId === 'temple-meads') {
+                                destStopId = 'temple-meads';
+                                break;
+                            }
                         }
                     }
+
                     if (destStopId === 'hotwells') {
                         direction = 'Towards Hotwells';
                     } else if (destStopId === 'temple-meads') {
