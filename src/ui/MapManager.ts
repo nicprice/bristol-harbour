@@ -85,13 +85,15 @@ export class MapManager {
             }
 
             // Make the label itself clickable
-            marker.on('add', () => {
+            marker.on('tooltipopen', () => {
                 const tooltip = marker.getTooltip();
                 if (tooltip) {
                     const tooltipElement = tooltip.getElement();
                     if (tooltipElement) {
                         tooltipElement.style.cursor = 'pointer';
-                        tooltipElement.addEventListener('click', () => {
+                        // Use Leaflet's DomEvent to ensure it doesn't conflict with map dragging etc.
+                        L.DomEvent.on(tooltipElement, 'click', (e) => {
+                            L.DomEvent.stopPropagation(e);
                             marker.openPopup();
                         });
                     }
