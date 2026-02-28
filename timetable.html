@@ -44,6 +44,46 @@
             text-align: left;
         }
 
+        .timetable-section {
+            margin-bottom: 3rem;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            background-color: var(--surface);
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .govuk-heading-m {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            border-bottom: 4px solid var(--primary-color);
+            display: inline-block;
+            padding-bottom: 2px;
+        }
+
+        .next-stop-highlight {
+            background-color: #ffdd00 !important;
+            /* GDS Yellow */
+            color: #0b0c0c !important;
+            /* GDS Black */
+            font-weight: bold;
+            position: relative;
+        }
+
+        .next-stop-highlight::after {
+            content: "Next ferry";
+            position: absolute;
+            top: -20px;
+            left: 0;
+            font-size: 0.75rem;
+            background: #0b0c0c;
+            color: #fff;
+            padding: 2px 4px;
+            white-space: nowrap;
+            z-index: 10;
+        }
+
         .visually-hidden {
             position: absolute !important;
             width: 1px !important;
@@ -63,194 +103,25 @@
     <a href="./index.html" class="govuk-back-link">Bristol Harbour ferry tracker home</a>
 
     <h1>Bristol ferry timetable</h1>
-    <p class="subtitle">2 Boats - Full Service (Winter Timetable)<br />Weekends Only (Daily for School Holidays)</p>
+    <p class="subtitle">Winter Timetable (Weekends Only / Daily for School Holidays)</p>
 
-    <table>
-        <thead class="visually-hidden">
-            <tr>
-                <td></td>
-                <th scope="col">Time</th>
-                <th scope="col">Time</th>
-                <th scope="col">Time</th>
-                <th scope="col">Time</th>
-                <th scope="col">Time</th>
-                <th scope="col">Time</th>
-                <th scope="col">Time</th>
-                <th scope="col">Time</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th scope="row">Temple Quay</th>
-                <td></td>
-                <td>11:20</td>
-                <td>12:00</td>
-                <td>12:40</td>
-                <td>13:20</td>
-                <td>14:00</td>
-                <td>14:40</td>
-                <td>15:20</td>
-            </tr>
-            <tr>
-                <th scope="row">Castle Park</th>
-                <td></td>
-                <td>
-                    11:25
-                </td>
-                <td>12:05</td>
-                <td>12:45</td>
-                <td>13:25</td>
-                <td>14:05</td>
-                <td>14:45</td>
-                <td>15:25</td>
-            </tr>
-            <tr>
-                <th scope="row">City Centre (arrive)</th>
-                <td></td>
-                <td>
-                    11:37
-                </td>
-                <td>12:17</td>
-                <td>12:57</td>
-                <td>13:37</td>
-                <td>14:17</td>
-                <td>14:57</td>
-                <td>15:37</td>
-            </tr>
-            <tr>
-                <th scope="row">City Centre (depart)</th>
-                <td></td>
-                <td>11:40</td>
-                <td>12:20</td>
-                <td>13:00</td>
-                <td>13:40</td>
-                <td>14:20</td>
-                <td>15:00</td>
-                <td>END</td>
-            </tr>
-            <tr>
-                <th scope="row">Wapping Wharf</th>
-                <td></td>
-                <td>11:47</td>
-                <td>12:27</td>
-                <td>13:07</td>
-                <td>13:47</td>
-                <td>14:27</td>
-                <td>15:07</td>
-                <td></td>
-            </tr>
-            <tr>
-                <th scope="row">ss Great Britain</th>
-                <td></td>
-                <td>11:50</td>
-                <td>12:30</td>
-                <td>13:10</td>
-                <td>13:50</td>
-                <td>14:30</td>
-                <td>15:10</td>
-                <td></td>
-            </tr>
-            <tr>
-                <th scope="row">Mardyke</th>
-                <td></td>
-                <td>11:54</td>
-                <td>12:34</td>
-                <td>13:14</td>
-                <td>13:54</td>
-                <td>14:34</td>
-                <td>15:14</td>
-                <td></td>
-            </tr>
-            <tr>
-                <th scope="row">Cottage (Hotwells)</th>
-                <td>11:20</td>
-                <td>12:00</td>
-                <td>12:40</td>
-                <td>13:20</td>
-                <td>14:00</td>
-                <td>14:40</td>
-                <td>15:20</td>
-                <td></td>
-            </tr>
-            <tr>
-                <th scope="row">Mardyke</th>
-                <td>11:22</td>
-                <td>12:02</td>
-                <td>12:42</td>
-                <td>13:22</td>
-                <td>14:02</td>
-                <td>14:42</td>
-                <td>15:22</td>
-                <td></td>
-            </tr>
-            <tr>
-                <th scope="row">ss Great Britain</th>
-                <td>11:25</td>
-                <td>12:05</td>
-                <td>12:45</td>
-                <td>13:25</td>
-                <td>14:05</td>
-                <td>14:45</td>
-                <td>15:25</td>
-                <td></td>
-            </tr>
-            <tr>
-                <th scope="row">Wapping Wharf</th>
-                <td>11:28</td>
-                <td>12:08</td>
-                <td>12:48</td>
-                <td>13:28</td>
-                <td>14:08</td>
-                <td>14:48</td>
-                <td>15:28</td>
-                <td></td>
-            </tr>
-            <tr>
-                <th scope="row">City Centre (arrive)</th>
-                <td>11:35</td>
-                <td>12:15</td>
-                <td>12:55</td>
-                <td>13:35</td>
-                <td>14:15</td>
-                <td>14:55</td>
-                <td>15:35</td>
-                <td></td>
-            </tr>
-            <tr>
-                <th scope="row">City Centre (depart)</th>
-                <td>11:40</td>
-                <td>12:20</td>
-                <td>13:00</td>
-                <td>13:40</td>
-                <td>14:20</td>
-                <td>15:00</td>
-                <td>END</td>
-                <td></td>
-            </tr>
-            <tr>
-                <th scope="row">Castle Park</th>
-                <td>11:53</td>
-                <td>12:33</td>
-                <td>13:13</td>
-                <td>13:53</td>
-                <td>14:33</td>
-                <td>15:13</td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <th scope="row">Temple Quay</th>
-                <td>12:00</td>
-                <td>12:40</td>
-                <td>13:20</td>
-                <td>14:00</td>
-                <td>14:40</td>
-                <td>15:20</td>
-                <td></td>
-                <td></td>
-            </tr>
-        </tbody>
-    </table>
+    <div id="timetable-container" class="govuk-grid-column-full">
+        <!-- Matilda Section -->
+        <section id="matilda-timetable" class="timetable-section">
+            <h2 class="govuk-heading-m">Matilda</h2>
+            <div class="table-wrapper">
+                <!-- Table injected here -->
+            </div>
+        </section>
+
+        <!-- Brigantia Section -->
+        <section id="brigantia-timetable" class="timetable-section">
+            <h2 class="govuk-heading-m">Brigantia</h2>
+            <div class="table-wrapper">
+                <!-- Table injected here -->
+            </div>
+        </section>
+    </div>
 
     <!-- Script to highlight next stops -->
     <script type="module" src="./src/timetable.ts"></script>
