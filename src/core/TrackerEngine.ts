@@ -173,7 +173,7 @@ export class TrackerEngine {
                 const stop = this.stops.get(stopTime.stopId);
                 if (stop) {
                     vessel.currentCoords = { ...stop.coords };
-                    vessel.status = 'Scheduled';
+                    vessel.status = stopTime.stopId.startsWith('mooring') ? 'Moored' : 'Scheduled';
                 }
                 // When docked, the NEXT stop is the following one in the schedule
                 if (i + 1 < schedule.length) {
@@ -218,14 +218,14 @@ export class TrackerEngine {
             const stop = this.stops.get(lastStop.stopId);
             if (stop) {
                 vessel.currentCoords = { ...stop.coords };
-                vessel.status = 'Scheduled';
+                vessel.status = lastStop.stopId.startsWith('mooring') ? 'Moored' : 'Scheduled';
             }
         } else if (!previousStop && schedule.length > 0) {
             const firstStop = schedule[0];
             const stop = this.stops.get(firstStop.stopId);
             if (stop) {
                 vessel.currentCoords = { ...stop.coords };
-                vessel.status = 'Scheduled';
+                vessel.status = firstStop.stopId.startsWith('mooring') ? 'Moored' : 'Scheduled';
             }
         }
     }

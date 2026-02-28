@@ -1,5 +1,5 @@
 export type PositionSource = 'TIMETABLE' | 'GPS';
-export type VesselStatus = 'Scheduled' | 'Estimated' | 'Live' | 'Actual Position';
+export type VesselStatus = 'Scheduled' | 'Estimated' | 'Live' | 'Actual Position' | 'Moored';
 export type VesselType = 'PassengerFerry' | 'Workboat';
 
 export interface Coordinates {
