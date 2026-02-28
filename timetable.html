@@ -62,7 +62,7 @@
         .time-cell {
             font-family: "Courier New", Courier, monospace;
             font-size: 1.1rem;
-            width: 100px;
+            width: 180px;
         }
 
         .next-stop-highlight {
@@ -79,15 +79,16 @@
 
         .next-stop-highlight::after {
             content: "Next ferry";
-            position: absolute;
-            top: -18px;
-            left: 0;
+            display: inline-block;
+            margin-left: 8px;
             font-size: 0.7rem;
             background: #0b0c0c;
             color: #fff;
-            padding: 1px 4px;
+            padding: 2px 6px;
             white-space: nowrap;
-            z-index: 20;
+            vertical-align: middle;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         tr:hover td {
