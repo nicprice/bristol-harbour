@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bristol Ferry Timetable</title>
+    <title>Bristol ferry timetable</title>
     <style>
         body {
             background-color: var(--surface-100);
@@ -22,14 +22,19 @@
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 2rem;
-            background-color: var(--surface-200);
+            background-color: var(--surface);
         }
 
         th,
         td {
-            padding: 0.75rem;
+            padding: 10px 20px 10px 0;
             text-align: left;
-            border: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: top;
+        }
+
+        th {
+            font-weight: bold;
         }
 
         caption {
@@ -55,9 +60,9 @@
 
 <body>
 
-    <a href="./index.html" class="back-link">&larr; Back to Home</a>
+    <a href="./index.html" class="govuk-back-link">Back to home</a>
 
-    <h1>Bristol Ferry Timetable</h1>
+    <h1>Bristol ferry timetable</h1>
     <p class="subtitle">2 Boats - Full Service (Winter Timetable)<br />Weekends Only (Daily for School Holidays)</p>
 
     <table>
@@ -100,7 +105,7 @@
                 <td>15:25</td>
             </tr>
             <tr>
-                <th scope="row">City Centre (Arrive)</th>
+                <th scope="row">City Centre (arrive)</th>
                 <td></td>
                 <td>
                     11:37
@@ -113,7 +118,7 @@
                 <td>15:37</td>
             </tr>
             <tr>
-                <th scope="row">City Centre (Depart)</th>
+                <th scope="row">City Centre (depart)</th>
                 <td></td>
                 <td>11:40</td>
                 <td>12:20</td>
@@ -201,7 +206,7 @@
                 <td></td>
             </tr>
             <tr>
-                <th scope="row">City Centre (Arrive)</th>
+                <th scope="row">City Centre (arrive)</th>
                 <td>11:35</td>
                 <td>12:15</td>
                 <td>12:55</td>
@@ -212,7 +217,7 @@
                 <td></td>
             </tr>
             <tr>
-                <th scope="row">City Centre (Depart)</th>
+                <th scope="row">City Centre (depart)</th>
                 <td>11:40</td>
                 <td>12:20</td>
                 <td>13:00</td>

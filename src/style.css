@@ -1,15 +1,22 @@
 :root {
-    /* WCAG Compliant Colors */
+    /* GOV.UK Design System Colors */
     --primary-color: #0b0c0c;
     /* GDS Black */
     --secondary-color: #1d70b8;
     /* GDS Blue */
+    --govuk-link-hover: #003078;
+    --govuk-link-visited: #4c2c92;
+    --govuk-button: #00703c;
+    /* GDS Action Green */
+    --govuk-button-hover: #005a30;
+    --govuk-button-shadow: #002d18;
+    --govuk-error: #d4351c;
     --background: #f3f2f1;
     /* GDS Light Grey */
     --surface: #ffffff;
+    --surface-200: #f3f2f1;
     --text-main: #0b0c0c;
     --text-inverse: #ffffff;
-
     --focus-color: #ffdd00;
     /* GDS Yellow */
     --border-color: #b1b4b6;
@@ -20,7 +27,6 @@
 
     /* Sizing */
     --min-touch-target: 32px;
-    /* Well above 24px spec */
     --sidebar-width: 350px;
 }
 
@@ -41,11 +47,83 @@ body {
     overflow: hidden;
 }
 
-/* Accessibility Focus */
+/* Accessibility Focus (GDS Style) */
 *:focus-visible {
-    outline: 4px solid var(--focus-color);
-    outline-offset: 2px;
-    border-radius: 2px;
+    outline: 3px solid var(--focus-color);
+    outline-offset: 0;
+    background-color: var(--focus-color);
+    color: var(--primary-color) !important;
+    border-bottom: 4px solid var(--primary-color);
+    text-decoration: none;
+}
+
+/* Base Links */
+a {
+    color: var(--secondary-color);
+    text-decoration: underline;
+    text-decoration-thickness: max(1px, .0625rem);
+    text-underline-offset: .1em;
+}
+
+a:hover {
+    color: var(--govuk-link-hover);
+    text-decoration-thickness: max(3px, .1875rem);
+}
+
+a:visited {
+    color: var(--govuk-link-visited);
+}
+
+/* GOV.UK Button Style */
+.govuk-button {
+    background-color: var(--govuk-button);
+    box-shadow: 0 2px 0 var(--govuk-button-shadow);
+    color: var(--text-inverse);
+    padding: 8px 10px 7px;
+    border: none;
+    border-radius: 0;
+    font-family: var(--font-family);
+    font-weight: 400;
+    font-size: 1.125rem;
+    line-height: 1.1875;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    vertical-align: top;
+    margin-bottom: 22px;
+}
+
+.govuk-button:hover,
+.govuk-button:focus {
+    background-color: var(--govuk-button-hover);
+    color: var(--text-inverse) !important;
+}
+
+.govuk-button:active {
+    top: 2px;
+    box-shadow: none;
+    position: relative;
+}
+
+/* Formatted Back Link */
+.govuk-back-link {
+    display: inline-block;
+    color: var(--primary-color);
+    text-decoration: underline;
+    text-decoration-thickness: max(1px, .0625rem);
+    text-underline-offset: .1em;
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+
+.govuk-back-link:visited {
+    color: var(--primary-color);
+}
+
+.govuk-back-link:hover {
+    color: rgba(11, 12, 12, 0.99);
+    /* Force GDS Black */
+    text-decoration-thickness: max(3px, .1875rem);
 }
 
 /* App Layout Container */

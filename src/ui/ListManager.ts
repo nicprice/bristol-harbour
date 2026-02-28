@@ -34,7 +34,7 @@ export class ListManager {
 
             let statusText = vessel.status || 'Unknown';
             if (vessel.status === 'Estimated' || vessel.status === 'Scheduled') {
-                statusText = `${vessel.status} (Timetable based)`;
+                statusText = `${vessel.status} (timetable based)`;
             }
 
             // Compute next stop and ETA if available

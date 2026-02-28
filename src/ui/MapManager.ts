@@ -57,9 +57,9 @@ export class MapManager {
                 const nextArrival = this.calculateNextArrival(stop.id);
                 marker.bindPopup(`
                     <strong>${stop.name}</strong><br/>
-                    Next Ferry: ${nextArrival.time}<br/>
+                    Next ferry: ${nextArrival.time}<br/>
                     Direction: ${nextArrival.direction}<br/>
-                    Next Stop: ${nextArrival.nextStop}
+                    Next stop: ${nextArrival.nextStop}
                 `).openPopup();
             });
 
