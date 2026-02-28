@@ -5,48 +5,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bristol Harbour Ferry</title>
+    <link rel="stylesheet" href="./src/style.css">
     <style>
-        :root {
-            --primary-color: #1d70b8;
-            --text-main: #0b0c0c;
-            --text-inverse: #ffffff;
-            --surface: #ffffff;
-            --surface-100: #f8f8f8;
-            --surface-200: #f1f1f1;
-            --border-color: #b1b4b6;
-            --focus-color: #ffdd00;
-        }
-
         body {
-            background-color: var(--surface-100);
-            color: var(--text-main);
             padding: 2rem;
             max-width: 600px;
             margin: 0 auto;
-            font-family: Arial, sans-serif;
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
-            align-items: center;
+            height: auto !important;
+            /* Override 100dvh from global for homepage scrollability */
         }
 
         h1 {
-            text-align: center;
             margin-bottom: 1rem;
-            color: var(--primary-color);
+            margin-top: 0;
+            font-size: 2.5rem;
         }
 
         p {
-            text-align: center;
             line-height: 1.5;
-            font-size: 1.1rem;
+            font-size: 1.25rem;
+            margin-top: 0;
+            margin-bottom: 2rem;
         }
 
         .nav-links {
             display: flex;
             flex-direction: column;
             width: 100%;
-            max-width: 320px;
+            max-width: 380px;
+            gap: 1.5rem;
+        }
+
+        .nav-links .govuk-button {
+            margin-bottom: 0;
+            /* Let flex gap handle spacing for better touch target distribution */
+            padding: 1rem;
+            /* Increase touch target */
+            font-size: 1.25rem;
+            text-align: center;
         }
     </style>
 </head>
