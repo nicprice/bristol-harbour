@@ -215,6 +215,7 @@ main {
     align-items: center;
     gap: 0.5rem;
     text-align: left;
+    border-bottom: none;
 }
 
 .status-card header h3 {
