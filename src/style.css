@@ -74,6 +74,11 @@ a:visited {
     color: var(--govuk-link-visited);
 }
 
+/* Ensure button text is always white on its green background */
+.govuk-button:visited {
+    color: var(--text-inverse);
+}
+
 /* GOV.UK Button Style */
 .govuk-button {
     background-color: var(--govuk-button);
@@ -94,7 +99,9 @@ a:visited {
 }
 
 .govuk-button:hover,
-.govuk-button:focus {
+.govuk-button:focus,
+.govuk-button:visited:hover,
+.govuk-button:visited:focus {
     background-color: var(--govuk-button-hover);
     color: var(--text-inverse) !important;
 }
