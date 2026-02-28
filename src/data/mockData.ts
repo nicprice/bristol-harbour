@@ -172,7 +172,7 @@ export const bristolFerriesRoute: Route = {
     path: routePath
 };
 
-function generateDynamicSchedule(startOffsetFromNowMinutes: number): StopTime[] {
+function generateDynamicSchedule(startOffsetFrom1120Minutes: number): StopTime[] {
     const stopIds = [
         'temple-meads', 'castle-park', 'city-centre', 'wapping-wharf', 'ss-great-britain', 'mardyke', 'hotwells',
         'mardyke', 'ss-great-britain', 'wapping-wharf', 'city-centre', 'castle-park'
@@ -181,8 +181,9 @@ function generateDynamicSchedule(startOffsetFromNowMinutes: number): StopTime[] 
     const baseArrivalOffsets = [0, 4, 17, 26, 29, 33, 38, 41, 44, 47, 55, 72];
     const dockDurations = [0, 1, 3, 1, 1, 1, 2, 1, 1, 1, 5, 1];
 
-    const now = Date.now();
-    const startTimeMs = now + startOffsetFromNowMinutes * 60000;
+    // Anchor to exactly 11:20 UTC today (matching the official timetable start)
+    const baseTimeMs = new Date().setUTCHours(11, 20, 0, 0);
+    const startTimeMs = baseTimeMs + startOffsetFrom1120Minutes * 60000;
 
     let schedule: StopTime[] = [];
     const loops = 5; // Generate schedule for next ~6.5 hours
