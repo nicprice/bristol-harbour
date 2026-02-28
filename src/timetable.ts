@@ -1,3 +1,4 @@
+import './style.css';
 import { mockVessels } from './data/mockData';
 
 function highlightNextStops() {
