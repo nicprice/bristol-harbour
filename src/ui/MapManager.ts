@@ -259,8 +259,13 @@ export class MapManager {
                 this.vesselMarkers.set(vessel.id, newMarker);
             }
         });
+    }
 
-        // Optional: Handle vessel removal if missing from array
-        // In a real system, you'd find markers not in 'vessels' and remove them.
+    public focusVessel(vesselId: string): void {
+        const marker = this.vesselMarkers.get(vesselId);
+        if (marker) {
+            this.map.setView(marker.getLatLng(), 16);
+            marker.openPopup();
+        }
     }
 }

@@ -2,11 +2,13 @@ import { Vessel, stops } from '../data/mockData';
 
 export class ListManager {
     private container: HTMLElement;
+    private onVesselClickCallback?: (vesselId: string) => void;
 
-    constructor(containerId: string) {
+    constructor(containerId: string, onVesselClick?: (vesselId: string) => void) {
         const el = document.getElementById(containerId);
         if (!el) throw new Error(`Container #${containerId} not found`);
         this.container = el;
+        this.onVesselClickCallback = onVesselClick;
     }
 
     public update(vessels: Vessel[]): void {
@@ -15,6 +17,12 @@ export class ListManager {
         vessels.forEach(vessel => {
             const card = document.createElement('div');
             card.className = 'status-card';
+            card.style.cursor = 'pointer';
+            card.onclick = () => {
+                if (this.onVesselClickCallback) {
+                    this.onVesselClickCallback(vessel.id);
+                }
+            };
             // aria-live here can be annoying if updated every second,
             // but the spec asks for aria-live polite for status messages.
             // A better strategy is to only update the inner text when status physically changes,

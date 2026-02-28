@@ -10,7 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Initialize UI components
   const mapManager = new MapManager('map', trackerEngine);
-  const listManager = new ListManager('live-list');
+  const listManager = new ListManager('live-list', (vesselId) => {
+    mapManager.focusVessel(vesselId);
+  });
 
   // Draw static map features
   mapManager.drawRoute(bristolFerriesRoute);
