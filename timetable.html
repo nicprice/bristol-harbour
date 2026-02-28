@@ -13,6 +13,10 @@
             max-width: 1000px;
             margin: 0 auto;
             font-family: Arial, sans-serif;
+            /* Override global fixed layout */
+            height: auto !important;
+            overflow: auto !important;
+            display: block !important;
         }
 
         .timetable-section {
@@ -20,10 +24,10 @@
         }
 
         .table-wrapper {
-            max-height: 500px;
-            overflow-y: auto;
+            overflow: visible;
             border: 1px solid var(--border-color);
             background-color: var(--surface);
+            margin-bottom: 2rem;
         }
 
         .govuk-heading-m {
