@@ -175,7 +175,7 @@ export const bristolFerriesRoute: Route = {
     path: routePath
 };
 
-function generateDynamicSchedule(startOffsetFrom1120Minutes: number, startH: number, startM: number, endH: number, endM: number, mooringId: string): StopTime[] {
+export function generateDynamicSchedule(startOffsetFrom1120Minutes: number, startH: number, startM: number, endH: number, endM: number, mooringId: string, baseDate: Date = new Date()): StopTime[] {
     const stopIds = [
         'temple-meads', 'castle-park', 'city-centre', 'wapping-wharf', 'ss-great-britain', 'mardyke', 'hotwells',
         'mardyke', 'ss-great-britain', 'wapping-wharf', 'city-centre', 'castle-park'
@@ -184,8 +184,8 @@ function generateDynamicSchedule(startOffsetFrom1120Minutes: number, startH: num
     const baseArrivalOffsets = [0, 5, 17, 27, 30, 34, 40, 42, 45, 48, 55, 73];
     const dockDurations = [1, 1, 3, 1, 1, 1, 1, 1, 1, 1, 5, 1];
 
-    // Anchor to exactly 11:20 UTC today (matching the official timetable start)
-    const baseTimeMs = new Date().setUTCHours(11, 20, 0, 0);
+    // Anchor to exactly 11:20 UTC on the given baseDate
+    const baseTimeMs = new Date(baseDate).setUTCHours(11, 20, 0, 0);
     const startTimeMs = baseTimeMs + startOffsetFrom1120Minutes * 60000;
 
     let rawSchedule: StopTime[] = [];
@@ -205,9 +205,9 @@ function generateDynamicSchedule(startOffsetFrom1120Minutes: number, startH: num
         }
     }
 
-    // Filter to active hours
-    const startFilterMs = new Date().setUTCHours(startH, startM, 0, 0);
-    const endFilterMs = new Date().setUTCHours(endH, endM, 0, 0);
+    // Filter to active hours based on baseDate
+    const startFilterMs = new Date(baseDate).setUTCHours(startH, startM, 0, 0);
+    const endFilterMs = new Date(baseDate).setUTCHours(endH, endM, 0, 0);
 
     const operationalSchedule = rawSchedule.filter(s => {
         const t = new Date(s.arrivalTime).getTime();

@@ -1,5 +1,5 @@
 import './style.css';
-import { mockVessels, stops, Stop } from './data/mockData';
+import { mockVessels, stops, Stop, generateDynamicSchedule } from './data/mockData';
 
 function haversineDist(lat1: number, lon1: number, lat2: number, lon2: number): number {
     const R = 6371e3; // Earth radius in metres
@@ -65,10 +65,26 @@ document.addEventListener('DOMContentLoaded', () => {
             for (const vessel of mockVessels) {
                 if (!vessel.schedule) continue;
 
-                // Find next arrival for this stop
-                const nextArrival = vessel.schedule.find(s =>
+                // Find next arrival for this stop today
+                let nextArrival = vessel.schedule.find(s =>
                     s.stopId === closestStop!.id && new Date(s.arrivalTime).getTime() >= now
                 );
+
+                let isTomorrow = false;
+                if (!nextArrival) {
+                    const tomorrow = new Date();
+                    tomorrow.setDate(tomorrow.getDate() + 1);
+                    let tomorrowSchedule;
+                    if (vessel.name === 'Matilda') {
+                        tomorrowSchedule = generateDynamicSchedule(0, 11, 20, 15, 37, 'mooring-1', tomorrow);
+                    } else if (vessel.name === 'Brigantia') {
+                        tomorrowSchedule = generateDynamicSchedule(-40, 11, 20, 15, 35, 'mooring-2', tomorrow);
+                    }
+                    if (tomorrowSchedule) {
+                        nextArrival = tomorrowSchedule.find(s => s.stopId === closestStop!.id);
+                        isTomorrow = !!nextArrival;
+                    }
+                }
 
                 let color = vessel.color || '#ccc';
                 let textColor = '#000';
@@ -80,12 +96,21 @@ document.addEventListener('DOMContentLoaded', () => {
                     const diffMins = Math.max(0, Math.ceil((arrivalDate.getTime() - now) / 60000));
                     const timeString = arrivalDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
+                    let displayTime = '';
+                    if (isTomorrow) {
+                        displayTime = `Tomorrow at ${timeString}`;
+                    } else if (diffMins > 60) {
+                        displayTime = `Today at ${timeString}`;
+                    } else {
+                        displayTime = `Arriving in ${diffMins} min<br><small>(${timeString})</small>`;
+                    }
+
                     arrivalsHtml += `
                         <div class="arrival-card">
                             <div class="vessel-badge" style="background-color: ${color}; color: ${textColor};" aria-hidden="true">${vessel.textInitial}</div>
                             <div class="arrival-info">
                                 <h3>${vessel.name}</h3>
-                                <div class="arrival-time">Arriving in ${diffMins} min<br><small>(${timeString})</small></div>
+                                <div class="arrival-time">${displayTime}</div>
                             </div>
                         </div>
                     `;
@@ -95,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <div class="vessel-badge" style="background-color: ${color}; color: ${textColor};" aria-hidden="true">${vessel.textInitial}</div>
                             <div class="arrival-info">
                                 <h3>${vessel.name}</h3>
-                                <div class="arrival-time">No more arrivals today</div>
+                                <div class="arrival-time">No active schedule</div>
                             </div>
                         </div>
                     `;
